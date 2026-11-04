@@ -6,11 +6,16 @@
   --f-display: "Arvo", "Rockwell", Georgia, serif; --f-body: "Didact Gothic", "Segoe UI", Roboto, Arial, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #191a16; --surface: #22231e; --ink: #ececE6; --muted: #b5b89f; --line: #393b31;
     --green: #8fd13a; --green-soft: #28361a; --red: #ff6f89; --red-soft: #3c1a22; --amber: #f0b456; --amber-soft: #3a2c14;
     --sage: #b8bd98; --tint: #2b2c25; --on-red: #1d1d1b; --shadow: none; color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+    --bg: #191a16; --surface: #22231e; --ink: #ececE6; --muted: #b5b89f; --line: #393b31;
+    --green: #8fd13a; --green-soft: #28361a; --red: #ff6f89; --red-soft: #3c1a22; --amber: #f0b456; --amber-soft: #3a2c14;
+    --sage: #b8bd98; --tint: #2b2c25; --on-red: #1d1d1b; --shadow: none; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }

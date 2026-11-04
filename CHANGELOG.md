@@ -1,5 +1,9 @@
 # Änderungen frooters Team-App
 
+## 0.1.1 (DEV) · 04.11.2026
+- Hell- und Dunkel-Design folgen auch einer festen Auswahl der Anzeige (data-theme), nicht nur der Systemeinstellung
+- Testversion zusätzlich als Seite mit Link zum Weitergeben
+
 ## 0.1.0 (DEV) · 04.11.2026
 Erste Testversion auf Basis der Club-App, nur Filialen (kein Franchise), Beispieldaten im Browser.
 - Mitarbeiter: Mein Dienstplan, Dienstwünsche, Krank melden, Urlaubsantrag, Stechuhr mit Pausenhinweis
