@@ -1,8 +1,8 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "datum": "2026-11-04",
   "stufe": "DEV",
   "neu": [
-    "Hell- und Dunkel-Design folgen auch einer festen Auswahl der Anzeige"
+    "App startet auch dort, wo der Update-Dienst gesperrt ist (geteilter Link)"
   ]
 }

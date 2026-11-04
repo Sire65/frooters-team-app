@@ -1,4 +1,4 @@
-const APP_VERSION = "0.1.1"; // gleich halten mit sw.js, version.json und ?v= in index.html (Versionsvertrag wie Club-App)
+const APP_VERSION = "0.1.2"; // gleich halten mit sw.js, version.json und ?v= in index.html (Versionsvertrag wie Club-App)
 // frooters Team-App – Oberfläche. Logik: logik.js (FRL), Daten: daten.js (FRD).
 (function () {
   "use strict";
@@ -537,6 +537,7 @@ const APP_VERSION = "0.1.1"; // gleich halten mit sw.js, version.json und ?v= in
       .map(([k, t]) => `<div class="karte"><b>${t}</b><p class="muted">${FROOTIE_TIPPS[k]}</p><p class="klein muted">🎬 Video folgt</p></div>`).join("")}</div>`;
   V.info = () => `${titel("Version")}<div class="karte"><p>frooters Team-App <b>${APP_VERSION}</b> (DEV, Testversion)</p><p class="muted">Daten: ${esc(A.name)}. Alles bleibt in diesem Browser.</p><button class="btn zwei" data-act="update-pruefen">🔄 Update prüfen</button></div>`;
 
+  let updateBand = "", wartend = null;
   // ---------- Zeichnen ----------
   function zeichnen() {
     if (!ICH()) ansicht = "login";
@@ -691,26 +692,32 @@ const APP_VERSION = "0.1.1"; // gleich halten mit sw.js, version.json und ?v= in
     else if (el.dataset.bedarf) { const [fid, sch] = el.dataset.bedarf.split("|"); filiale(fid).bedarf.standard[sch] = Number(el.value) || 0; speichern(); }
   });
 
-  // ---------- Update wie in der Club-App: komplett oder gar nicht ----------
-  let updateBand = "", wartend = null;
-  function updatePruefen(laut) {
-    if (!("serviceWorker" in navigator)) { if (laut) meldung("Updates gibt es nur in der installierten App"); return; }
-    navigator.serviceWorker.getRegistration().then((reg) => { if (!reg) { if (laut) meldung("Kein Update-Dienst aktiv"); return; } return reg.update().then(() => { if (laut && !reg.installing && !reg.waiting) meldung("Du hast die neueste Version"); }); }).catch(() => laut && meldung("Update-Prüfung nicht möglich"));
-  }
-  if ("serviceWorker" in navigator && location.protocol !== "file:") {
-    navigator.serviceWorker.register("sw.js").then((reg) => {
-      const zeigen = (w) => { wartend = w; updateBand = `<div class="update">Neue Version bereit <button data-act="update-jetzt">Jetzt aktualisieren</button></div>`; zeichnen(); };
-      if (reg.waiting && navigator.serviceWorker.controller) zeigen(reg.waiting);
-      reg.addEventListener("updatefound", () => { const n = reg.installing; n && n.addEventListener("statechange", () => { if (n.state === "installed" && navigator.serviceWorker.controller) zeigen(n); }); });
-    }).catch(() => { /* ohne Service Worker läuft die App trotzdem */ });
-    let neu = false;
-    navigator.serviceWorker.addEventListener("controllerchange", () => { if (neu) return; neu = true; location.reload(); });
-  }
-
+  // Erst anzeigen, dann den Update-Dienst versuchen: in eingebetteten Ansichten (z. B. geteilter Link) ist er gesperrt
+  // und darf die App nie am Starten hindern.
   const start = (location.hash || "").slice(1);
   if (start && V[start]) ansicht = start;
   window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (V[h] && h !== ansicht) { ansicht = h; arg = null; fenster = null; zeichnen(); } });
   zeichnen();
+
+  // ---------- Update wie in der Club-App: komplett oder gar nicht ----------
+  function swDa() { try { return "serviceWorker" in navigator && !!navigator.serviceWorker && location.protocol !== "file:"; } catch (e) { return false; } }
+  function updatePruefen(laut) {
+    if (!swDa()) { if (laut) meldung("Updates gibt es nur in der installierten App"); return; }
+    try {
+      navigator.serviceWorker.getRegistration().then((reg) => { if (!reg) { if (laut) meldung("Kein Update-Dienst aktiv"); return; } return reg.update().then(() => { if (laut && !reg.installing && !reg.waiting) meldung("Du hast die neueste Version"); }); }).catch(() => laut && meldung("Update-Prüfung nicht möglich"));
+    } catch (e) { if (laut) meldung("Update-Prüfung nicht möglich"); }
+  }
+  if (swDa()) {
+    try {
+      navigator.serviceWorker.register("sw.js").then((reg) => {
+        const zeigen = (w) => { wartend = w; updateBand = `<div class="update">Neue Version bereit <button data-act="update-jetzt">Jetzt aktualisieren</button></div>`; zeichnen(); };
+        if (reg.waiting && navigator.serviceWorker.controller) zeigen(reg.waiting);
+        reg.addEventListener("updatefound", () => { const n = reg.installing; n && n.addEventListener("statechange", () => { if (n.state === "installed" && navigator.serviceWorker.controller) zeigen(n); }); });
+      }).catch(() => { /* ohne Service Worker läuft die App trotzdem */ });
+      let neu = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => { if (neu) return; neu = true; location.reload(); });
+    } catch (e) { /* gesperrt, die App läuft ohne Update-Dienst */ }
+  }
   setInterval(() => { if (["hygiene", "start", "stechuhr", "hygkontrolle"].includes(ansicht) && !fenster && !document.activeElement.matches("input,textarea,select")) zeichnen(); }, 60000);
   window.FR_APP = { zustand: () => S, version: APP_VERSION };
 })();

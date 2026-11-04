@@ -1,5 +1,8 @@
 # Änderungen frooters Team-App
 
+## 0.1.2 (DEV) · 04.11.2026
+- Fehler behoben: Im geteilten Link blieb die App bei „wird geladen“ hängen, weil der gesperrte Update-Dienst den Start abbrach. Die App zeigt sich jetzt zuerst an und versucht den Update-Dienst danach, abgesichert.
+
 ## 0.1.1 (DEV) · 04.11.2026
 - Hell- und Dunkel-Design folgen auch einer festen Auswahl der Anzeige (data-theme), nicht nur der Systemeinstellung
 - Testversion zusätzlich als Seite mit Link zum Weitergeben
