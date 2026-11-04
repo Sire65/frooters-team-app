@@ -199,3 +199,41 @@ test("Stundenliste: je Person und Tag, offene Tage markiert, CSV mit Semikolon",
   const c = L.csv([["A; B", 1]], ["Name", "Std"]);
   assert.equal(c, 'Name;Std\r\n"A; B";1');
 });
+
+test("Tauschbörse: Stunden am Ende abgeben teilt die Schicht, Stunden zählen richtig", () => {
+  const s = neu();
+  s.plan = [{ id: "s1", filiale: "och", datum: "2026-11-10", schicht: "frueh", personId: pid(s, "Lena") }];
+  const z = L.planZeit(s, s.plan[0]); // 09:30–15:00
+  assert.equal(L.teilPruefen(z, { start: z.start + 60, ende: z.ende - 60 }), "Abgeben geht nur am Anfang oder Ende der Schicht.");
+  assert.equal(L.teilPruefen(z, { start: z.ende - 30, ende: z.ende }), "Mindestens 1 Stunde abgeben.");
+  const a = { id: "x1", schichtId: "s1", vonId: pid(s, "Lena"), teil: { start: z.ende - 120, ende: z.ende }, status: "angefragt", nehmerId: pid(s, "Leonie") };
+  assert.equal(L.tauschPruefen(s, a, a.nehmerId).moeglich, true);
+  L.tauschAusfuehren(s, a, () => "s2");
+  const lena = s.plan.find((x) => x.id === "s1"), leonie = s.plan.find((x) => x.id === "s2");
+  assert.deepEqual(lena.zeit, { start: z.start, ende: z.ende - 120 });
+  assert.equal(leonie.personId, pid(s, "Leonie"));
+  assert.equal(L.stundenInWoche(s, pid(s, "Lena"), "2026-11-09") + L.stundenInWoche(s, pid(s, "Leonie"), "2026-11-09"), (z.ende - z.start) / 60);
+});
+
+test("Tauschbörse: Übernahme nur wer in der Filiale darf, nicht krank und frei ist", () => {
+  const s = neu();
+  const tag = "2026-11-10";
+  s.plan = [{ id: "s1", filiale: "och", datum: tag, schicht: "frueh", personId: pid(s, "Lena") }, { id: "s2", filiale: "och", datum: tag, schicht: "frueh", personId: pid(s, "Tom") }];
+  const a = { id: "x1", schichtId: "s1", vonId: pid(s, "Lena"), teil: null, status: "offen" };
+  assert.equal(L.tauschPruefen(s, a, pid(s, "Anna")).moeglich, false, "Oberhausen darf nicht nach Ochtrup");
+  assert.equal(L.tauschPruefen(s, a, pid(s, "Tom")).moeglich, false, "hat schon Dienst");
+  assert.equal(L.tauschPruefen(s, a, pid(s, "Mia")).moeglich, true, "Springerin aus Osnabrück darf");
+  s.abwesenheiten.push({ id: "k", personId: pid(s, "Mia"), art: "krank", von: tag, bis: tag });
+  assert.equal(L.tauschPruefen(s, a, pid(s, "Mia")).moeglich, false);
+});
+
+test("Tauschbörse: Tausch gegen eigene Schicht tauscht beide Personen", () => {
+  const s = neu();
+  s.plan = [{ id: "s1", filiale: "och", datum: "2026-11-10", schicht: "frueh", personId: pid(s, "Lena") }, { id: "s2", filiale: "och", datum: "2026-11-11", schicht: "spaet", personId: pid(s, "Leonie") }];
+  const a = { id: "x1", schichtId: "s1", vonId: pid(s, "Lena"), teil: null, status: "angefragt", nehmerId: pid(s, "Leonie"), gegenId: "s2" };
+  assert.equal(L.tauschPruefen(s, a, a.nehmerId, "s2").moeglich, true);
+  L.tauschAusfuehren(s, a, () => "neu");
+  assert.equal(s.plan[0].personId, pid(s, "Leonie"));
+  assert.equal(s.plan[1].personId, pid(s, "Lena"));
+  assert.equal(L.tauschPruefen(s, { ...a, teil: { start: 600, ende: 720 } }, a.nehmerId, "s2").moeglich, false, "Teilstunden nicht gegen Schicht");
+});

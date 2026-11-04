@@ -1,5 +1,10 @@
 # Änderungen frooters Team-App
 
+## 0.3.0 (DEV) · 05.11.2026
+- Tauschbörse: Mitarbeiter bieten eine ganze Schicht oder einzelne Stunden (am Anfang oder Ende, mindestens 1 Std.) an. Kollegen übernehmen oder tauschen gegen eine eigene ganze Schicht.
+- Die App prüft vor jedem Tausch: darf in der Filiale arbeiten (Springer-Haken), nicht krank oder im Urlaub, keine Überschneidung; Hinweise bei „kann nicht“ und überschrittenen Wochenstunden
+- Die Shopleitung bestätigt unter „Anträge“, erst dann ändert sich der Plan. Abgegebene Stunden erscheinen im Plan mit eigener Uhrzeit.
+
 ## 0.2.0 (DEV) · 04.11.2026
 Antworten aus dem Fragebogen (`docs/ANTWORTEN-FRAGEBOGEN-2026-11.md`) eingearbeitet.
 - Filialen: Ochtrup Designer Outlet (Pilot), Oberhausen Centro, Sinsheim Therme, Osnabrück (Bowls & Smoothie, Café) und Road Runner als mobiler Stand mit Einsatztagen und Ort. Kurze Einsätze haben eine durchgehende Schicht.
