@@ -1,4 +1,4 @@
-# frooters Team-App (Testversion 0.1.0, DEV)
+# frooters Team-App (Testversion 0.2.0, DEV)
 
 Handy- und Tablet-App (PWA) für alle frooters-Filialen. Aufbau wie die Köcheclub Club-App: Programm ohne Build-Schritt,
 Kacheln je Rolle, Frootie als Helfer (statt Twinkey), Versionsvertrag mit atomarem Update.
@@ -6,6 +6,9 @@ Konzept: `docs/FROOTERS-APP-KONZEPT.md`, Hygiene: `docs/FROOTERS-HYGIENE-KONZEPT
 
 **Stand 0.1.0:** Die App läuft mit **Beispieldaten im Browser** (Adapter `demo`). Es gibt noch keinen Server, kein Supabase-Projekt
 und keine echte Anmeldung. Oben wählt man eine Person und sieht die App aus ihrer Sicht. Nur Filialen, kein Franchise.
+Filialen und Rollen folgen den Antworten aus dem Fragebogen (`docs/ANTWORTEN-FRAGEBOGEN-2026-11.md`): Pilot Ochtrup, dazu Oberhausen, Sinsheim, Osnabrück und der mobile Stand Road Runner.
+
+**Testversion zum Weitergeben:** https://sire65.github.io/frooters-testversion/ (öffentliches Repository `frooters-testversion`, nur App-Dateien mit Beispieldaten).
 
 ## Starten
 
@@ -22,8 +25,10 @@ npm test                       # Logik- und Vertragstests (node --test)
 | Hygiene | alle im Shop | Tagesliste aus Regeln, Geräten, Öffnungszeit und Einsatzplan, abhaken mit Messwert, Maßnahme bei Abweichung, automatische Nachkontrolle, Meldung an die Shopleitung | FR-HYG-03 bis 09 |
 | Rezepte | alle | nach Warengruppen, Mengen je Größe, Allergene, Zubereitung, **Rezept-Quiz** (Frage und Antwort) | FR-REZEPTE |
 | Pinnwand | alle | Zettel je Filiale und für alle | FR-PINNWAND |
-| Shopleitung / Stellvertretung | Leitung der eigenen Filiale | Einsatzplan (Woche, Ampel, Vorschlag erst mit eigenem Team, dann mit Springern, Veröffentlichen), Anträge genehmigen, Krank und offene Schichten, Hygiene-Kontrolle (7 Tage), Regeln und Geräte des Shops (gilt hier / trifft nicht zu, eigene Uhrzeit, Gerät gestört), Stempelzeiten, Team | FR-PLANUNG, FR-HYG-05, FR-HYG-10 |
-| Zentrale (Inhaber) | Zentrale | Auswertung je Filiale und gesamt, Mitarbeiter-Stammdaten mit **Springer-Haken und Einsatzfilialen**, Filialen (Öffnungszeiten, Besetzung), Hygieneregeln global (Assistent in 6 Schritten) | FR-PERSONAL, FR-ORG, FR-HYG-02 |
+| Shopleitung / Stellvertretung | Leitung der eigenen Filiale | Einsatzplan (Woche, Ampel, Vorschlag erst mit eigenem Team, dann mit Springern, Veröffentlichen), Anträge genehmigen, Krank und offene Schichten, Hygiene-Kontrolle (7 Tage), Regeln und Geräte des Shops (gilt hier / trifft nicht zu, eigene Uhrzeit, Gerät gestört), Stempelzeiten, Stundenliste mit CSV-Export für den Steuerberater, Team | FR-PLANUNG, FR-HYG-05, FR-HYG-10 |
+| Qualität & Pflege | feste Person | Hygieneregeln und Rezepte für alle Filialen pflegen, Hygiene-Kontrolle | FR-REZEPTE, FR-HYG-02 |
+| Hygieneberater | extern, nur lesen | Hygiene-Tagesliste und Kontrolle aller Filialen ansehen, nichts ändern | FR-HYG-10 |
+| Zentrale (Inhaber) | Zentrale | Auswertung je Filiale und gesamt, Mitarbeiter-Stammdaten mit **Springer-Haken und Einsatzfilialen**, Filialen (Öffnungszeiten, Besetzung), Hygieneregeln global (Assistent in 6 Schritten), Rezepte pflegen, Sortiment je Filiale, Einsätze des mobilen Stands | FR-PERSONAL, FR-ORG, FR-HYG-02 |
 
 **Springer:** In den Stammdaten bekommt eine Person den Haken „Springer“ und Haken bei jeder Filiale, in der sie aushelfen darf.
 Nur dort taucht sie bei der Einsatzplanung auf (grauer Rand, „↔“). Überschneidungen mit Schichten in anderen Filialen werden erkannt.
@@ -41,7 +46,7 @@ Pflichtregeln kann nur die Zentrale abschalten. Nicht erledigte Aufgaben werden 
 | `app.js` | Oberfläche, Ansichten, Aktionen |
 | `sw.js` | Service Worker: alle Dateien einer Version zusammen (alles oder nichts) |
 | `version.json`, `manifest.webmanifest`, `frootie.svg`, `icon-*.png` | Version, Installation, Frootie |
-| `tests/` | `logik.test.js` (16 Fachtests), `vertrag.test.js` (Versionsvertrag, Service Worker, Sicherheit, Hilfetexte) |
+| `tests/` | `logik.test.js` (19 Fachtests), `vertrag.test.js` (Versionsvertrag, Service Worker, Sicherheit, Hilfetexte) |
 
 **Version:** `APP_VERSION` (app.js) = `VERSION` (sw.js) = `version.json` = alle `?v=` in index.html. Jede Änderung erhöht alle gemeinsam, der Test prüft das.
 

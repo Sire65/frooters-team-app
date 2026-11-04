@@ -1,5 +1,15 @@
 # Änderungen frooters Team-App
 
+## 0.2.0 (DEV) · 04.11.2026
+Antworten aus dem Fragebogen (`docs/ANTWORTEN-FRAGEBOGEN-2026-11.md`) eingearbeitet.
+- Filialen: Ochtrup Designer Outlet (Pilot), Oberhausen Centro, Sinsheim Therme, Osnabrück (Bowls & Smoothie, Café) und Road Runner als mobiler Stand mit Einsatztagen und Ort. Kurze Einsätze haben eine durchgehende Schicht.
+- Sortiment je Filiale (Warengruppen), neue Warengruppen Bowls und Café, Rezepte und Quiz zeigen nur das Sortiment der Filiale
+- Neue Rollen: Qualität & Pflege (feste Person für Rezepte und Hygieneregeln) und Hygieneberater (liest Hygiene aller Filialen, kann nichts ändern)
+- Keine eigene Bezirksleitung: der Inhaber sieht alle Filialen
+- Rezepte pflegen (Zutaten mit Mengen je Größe und Allergenen, Zubereitung)
+- Stundenliste je Filiale und Monat mit CSV-Export für den Steuerberater (statt Stundenzettel)
+- Neue Gerätetypen Kaffeemaschine und Kühlbox (mobil) mit Hygieneregeln
+
 ## 0.1.2 (DEV) · 04.11.2026
 - Fehler behoben: Im geteilten Link blieb die App bei „wird geladen“ hängen, weil der gesperrte Update-Dienst den Start abbrach. Die App zeigt sich jetzt zuerst an und versucht den Update-Dienst danach, abgesichert.
 
