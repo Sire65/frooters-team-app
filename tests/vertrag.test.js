@@ -20,8 +20,8 @@ test("Versionsvertrag: app.js, sw.js, version.json und index.html nennen dieselb
 
 test("Service Worker speichert alle Programmdateien der Version", () => {
   const sw = lies("sw.js");
-  for (const f of ["styles.css", "logik.js", "daten.js", "app.js", "frootie.svg", "manifest.webmanifest"]) assert.ok(sw.includes(f), f);
-  for (const f of ["frootie.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"]) assert.ok(fs.existsSync(path.join(__dirname, "..", f)), f + " fehlt");
+  for (const f of ["styles.css", "logik.js", "daten.js", "app.js", "frootie.svg", "logo.svg", "manifest.webmanifest"]) assert.ok(sw.includes(f), f);
+  for (const f of ["frootie.svg", "logo.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"]) assert.ok(fs.existsSync(path.join(__dirname, "..", f)), f + " fehlt");
 });
 
 test("Sicherheit: Content-Security-Policy ohne fremde Skripte, keine Schlüssel im Code", () => {

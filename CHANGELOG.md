@@ -1,5 +1,8 @@
 # Änderungen frooters Team-App
 
+## 0.4.1 (DEV) · 05.11.2026
+- Original-Logo von frooters oben in der App und auf der Startseite, Frootie (Erdbeere mit grüner Kappe, Vorschlag 1) größer bei der Begrüßung und in den Hilfetexten
+
 ## 0.4.0 (DEV) · 05.11.2026
 - Admin-Einstellungen (Inhaber): Betreiber anlegen (eigene Filialen oder Franchisenehmer), Filialen zuordnen, AV-Vertrag, eigene Datenbank je Betreiber (Supabase-Projekt und Neon-Projekt, beide Frankfurt)
 - Prüfung der Verbindungsdaten: Format, Region Frankfurt; geheime Schlüssel (sb_secret, service_role), Datenbank-Passwörter und Neon-API-Schlüssel werden erkannt und nicht gespeichert
