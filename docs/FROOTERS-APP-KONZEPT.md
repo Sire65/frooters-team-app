@@ -12,8 +12,7 @@
 |---|---|---|
 | Betreiber | Genussmanufaktur GmbH & Co. KG, gegründet 2011. Gründer und Inhaber ist Christian Kötterheinrich (vorher Modebranche, ab 2010 Berater). | Mandant „Genussmanufaktur“ ist die oberste Ebene, Inhaberrolle mit Sicht auf alles. |
 | Marken | **frooters** (Wellness-Food) und seit 2016 **Pick-Nick**, der „kleine Bruder“. | Ebene **Marke** zwischen Unternehmen und Filiale, damit Pick-Nick später ohne Umbau dazukommen kann. |
-| Filialen (offizielle Seite) | Essen (Limbecker Platz), Kempten (Reischmann), Minden (Kaufhaus Hagemeyer), Oberhausen (Westfield Centro, Promenade), Ochtrup (Designer Outlet), Sinsheim (Therme). | Filialen werden als Stammdaten gepflegt, nicht im Code. |
-| Weitere Standorte (nur Verzeichnisse, ungeprüft) | Dortmund (Thier-Galerie), Oldenburg, Essen-Altenessen. Die Einträge sind teils älter. | Beim Start mit dem Inhaber abgleichen, welche Filialen es aktuell gibt. |
+| Filialen (Stand Fragebogen 04.11.2026) | Ochtrup (Designer Outlet, **Pilot**), Oberhausen (Westfield Centro), Sinsheim (Therme), Osnabrück (Bowls & Smoothie, Café), Road Runner (mobiler Stand), dazu die Marke Pick-Nick. Frühere Standorte aus älteren Verzeichnissen bestehen nicht mehr. | Filialen werden als Stammdaten gepflegt, nicht im Code. |
 | Flächen und Lage | 15 bis 90 m², fast immer in Einkaufszentren, Kaufhäusern, Outlet oder Therme. | Eigene **Öffnungszeiten je Filiale**, oft vom Center vorgegeben (z. B. 10 bis 20 Uhr, Fr/Sa bis 22 Uhr, Outlet sonntags zu). Kleine Teams und Einzelbesetzung kommen vor, daher Alleinarbeit und Springer mitdenken. Das WLAN im Center ist oft schwach, deshalb **Offline-Fähigkeit**. |
 | Sortiment | Frozen Yogurt mit Saucen und Toppings, Obstsalate, Smoothies, frisch gepresste Säfte, handgemachtes Eis am Stiel, Quark und Pudding, neu Porridge und Milchreis, außerdem Waffeln, Baguettes und Toast. | Daraus ergeben sich die **Warengruppen** fürs Rezeptbuch (Kap. 6.4). |
 | Qualitätsversprechen | Täglich frisch von Hand zubereitet, mehrmals am Tag nachgefüllt, regionale Lieferanten wo möglich. Fast alles ist glutenfrei (Ausnahme Waffeln und einige Toppings). | **Hygiene** und **Allergene** sind Kernfunktionen. Standzeiten und Nachproduktion gehören in die Tagesaufgaben. |
@@ -84,7 +83,7 @@ Die drei Mitarbeiter-Oberflächen sprechen nur mit **einem Server** (Supabase Ed
 Unternehmen (Genussmanufaktur GmbH & Co. KG)
  └─ Marke (frooters, Pick-Nick …)
      └─ Bezirk (z. B. „Ruhr“, „Nord“, „Süd“)
-         └─ Filiale (Essen Limbecker Platz, Minden Hagemeyer …)
+         └─ Filiale (Ochtrup Designer Outlet, Oberhausen Centro, Road Runner mobil …)
              └─ Station (Theke, Froyo-Maschine 1, Kühlvitrine, Lager …)  ← für Hygiene und Geräte
 ```
 
@@ -564,7 +563,7 @@ Fehlende oder veraltete Daten erscheinen als „⚪ keine Daten“ oder „⏳ S
 Jede Phase läuft DEV → RC (Pilotfiliale) → FINAL nach Regression, Visual-TÜV, Security, Architekturprüfung und Release-TÜV.
 
 ### Offene Entscheidungen
-1. Aktuelle Filialliste und Bezirke (Dortmund, Oldenburg, Altenessen noch aktiv?), Firmierung, Pick-Nick von Anfang an dabei?
+1. Filialliste ist geklärt (Fragebogen). Offen: Firmierung, Name des Cafés in Osnabrück, Pick-Nick-Standorte
 2. Wer pflegt die Rezepte und Hygienepläne (Inhaber, eigene QS-Rolle)?
 3. Welche Lohnbuchhaltung bzw. welches Exportformat (DATEV oder anderes)?
 4. Gibt es einen Betriebsrat? Wer ist Datenschutzbeauftragter?
