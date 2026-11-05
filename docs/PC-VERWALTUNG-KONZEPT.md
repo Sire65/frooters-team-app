@@ -187,7 +187,7 @@ protokoll:  {wer, wann, was, alt, neu}
 | 1 ✅ | PC-Ansicht (Seitenleiste, Tabellen), Filialen, Mitarbeiter mit Beschäftigungsart, Umfang, „darf überschreiten“, Einsatzprofil, Springer, Qualifikationen, Excel-Import | **gebaut in 0.8.0** (Testversion mit Beispieldaten) |
 | 2 ✅ | Zutatenstamm, Allergene aus Zutaten, Rezept-Freigabe 4-Augen, Fassungen | **gebaut in 0.9.0** (Testversion) |
 | 3 ✅ | Artikelstamm, Sortiment je Filiale, Inventur am Handy, Bestellliste Soll − Ist, Bestellung als PDF, Wareneingang | **gebaut in 0.10.0** (Testversion) |
-| 4 | Gastronovi-Export einlesen, Umsatz je Stunde in der Dienstplanung, Stunden-Export Steuerberater | nach Klärung des Exports |
+| 4 ◐ | Gastronovi-Export einlesen, Umsatz je Stunde in der Dienstplanung, Stunden-Export Steuerberater | **0.11.0:** CSV-Import mit Spaltenzuordnung, Umsatz & Personal, Monatsübersicht als CSV. **Offen:** echten Gastronovi-Export testen, Format des Steuerberaters (z. B. DATEV) |
 | 5 | Verbrauchsprognose, Abgleich Soll-/Ist-Verbrauch, Bilderrechner-Erfassung (C1) | nach Stufe 4 |
 | 6 | Bilderrechner als Kasse (C) | nur nach Freigabe Steuerberater, eigenes Projekt |
 

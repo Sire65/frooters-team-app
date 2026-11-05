@@ -1,5 +1,11 @@
 # Änderungen frooters Team-App
 
+## 0.11.0 (DEV) · 05.11.2026 · PC-Version Stufe 4 (Teil ohne Gastronovi)
+- Kassendaten einlesen: CSV aus Gastronovi oder einer anderen Kasse (Datei oder Kopieren/Einfügen); Spalten Datum, Uhrzeit, Umsatz, Anzahl, Artikel werden an der Kopfzeile erkannt oder von Hand zugeordnet; deutsche Zahlen und Datumsangaben; Vorschau je Tag; erneutes Einlesen ersetzt dieselben Tage (nichts doppelt)
+- Umsatz & Personal (Shopleitung): Ø Umsatz je Stunde aus den letzten 4 gleichen Wochentagen neben den Personen laut Plan, Umsatz je Personalstunde; Hinweis rot bei viel Umsatz für wenig Personal, grün bei ruhigen Stunden mit mehr Personal
+- Monatsübersicht für den Steuerberater (in der Stundenliste): Soll aus dem Stundenumfang, gestempelt, geplant, Differenz und Abwesenheitstage je Art; als CSV je Filiale oder (Inhaber) alle Filialen
+- Beispielumsätze (erfunden) für die Testversion, deutlich gekennzeichnet
+
 ## 0.10.0 (DEV) · 05.11.2026 · PC-Version Stufe 3
 - Artikel & Lieferanten (Zentrale): Artikel mit Lieferant, Bestellnummer, Lagerort, Einheit, Gebinde (z. B. Karton à 6 l), Verknüpfung zur Zutat, optional Einkaufspreis; Lieferanten mit E-Mail, Telefon, Bestelltagen
 - Sortiment & Soll (Shopleitung): welche Artikel die Filiale führt, Sollbestand und Mindestbestand

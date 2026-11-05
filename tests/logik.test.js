@@ -550,3 +550,48 @@ test("Bestellungen je Lieferant getrennt, Nullmengen werden ignoriert", () => {
   assert.equal(b.length, lieferanten.size);
   assert.ok(b.every((x) => x.posten.every((p) => p.menge > 0) && x.status === "frei"));
 });
+
+// ---------- 0.11.0: Kassendaten, Umsatz je Stunde, Monatsübersicht ----------
+test("Zahlen, Datum und Uhrzeit aus deutschen Kassen-Exporten", () => {
+  assert.equal(L.zahlDe("1.234,56 €"), 1234.56); assert.equal(L.zahlDe("4,9"), 4.9); assert.equal(L.zahlDe("12.50"), 12.5); assert.equal(L.zahlDe("1.000"), 1000); assert.equal(L.zahlDe("abc"), null);
+  assert.equal(L.datumDe("05.11.2026"), "2026-11-05"); assert.equal(L.datumDe("5.1.26"), "2026-01-05"); assert.equal(L.datumDe("2026-11-05T10:00"), "2026-11-05"); assert.equal(L.datumDe("Montag"), null);
+  assert.equal(L.stundeDe("14:35:10"), 14); assert.equal(L.stundeDe("9"), 9); assert.equal(L.stundeDe("25"), null);
+});
+
+test("Kassen-Import: Spalten erkennen, je Stunde zusammenfassen, Fehler melden, beim zweiten Einlesen ersetzen", () => {
+  const csv = "Belegdatum;Uhrzeit;Artikel;Menge;Umsatz brutto\n03.11.2026;10:15;Froyo M;2;9,80\n03.11.2026;10:40;Smoothie;1;4,50\n03.11.2026;14:05;Froyo L;1;5,90\n03.11.2026;;Gutschein;1;10,00\nkaputt;;;;\n";
+  const r = L.kassenImport(csv);
+  assert.equal(r.zuordnung.datum, 0); assert.equal(r.zuordnung.zeit, 1); assert.equal(r.zuordnung.umsatz, 4);
+  assert.deepEqual(r.posten.map((x) => [x.stunde, x.umsatz, x.anzahl]), [[null, 10, 1], [10, 14.3, 3], [14, 5.9, 1]]);
+  assert.equal(r.fehler.length, 2);
+  const s = neu(); s.verkauf = [];
+  assert.equal(L.kassenUebernehmen(s, "och", r.posten, "csv"), 1);
+  L.kassenUebernehmen(s, "och", r.posten, "csv");
+  assert.equal(s.verkauf.length, 3, "kein doppeltes Einlesen");
+  const r2 = L.kassenImport("Datum;Uhrzeit;Wert\n03.11.2026;10:00;5");
+  assert.ok(r2.fehler[0].includes("Umsatz")); assert.equal(r2.posten.length, 0);
+  const r3 = L.kassenImport("Datum;Uhrzeit;Wert\n03.11.2026;10:00;5", { umsatz: 2 });
+  assert.equal(r3.posten[0].umsatz, 5);
+  const r4 = L.kassenImport("Zeitpunkt,Betrag\n03.11.2026 18:20,\"3,50\"", { datum: 0, zeit: 0 });
+  assert.equal(r4.posten[0].stunde, 18); assert.equal(r4.posten[0].umsatz, 3.5);
+});
+
+test("Umsatz je Stunde: Mittel der letzten Wochen am gleichen Wochentag, Personal je Stunde", () => {
+  const s = neu(); s.verkauf = [];
+  const d = "2026-11-11"; // Mittwoch
+  L.kassenUebernehmen(s, "och", [{ datum: "2026-11-04", stunde: 12, umsatz: 100, anzahl: 0 }, { datum: "2026-10-28", stunde: 12, umsatz: 60, anzahl: 0 }, { datum: "2026-10-28", stunde: 13, umsatz: 40, anzahl: 0 }], "csv");
+  const u = L.umsatzJeStunde(s, "och", d, 4);
+  assert.deepEqual(u.tage, ["2026-10-28", "2026-11-04"]); assert.equal(u.proStunde[12], 80); assert.equal(u.proStunde[13], 20); assert.equal(u.tagesumsatz, 100);
+  const pj = L.personalJeStunde(s, "och", "2026-11-04");
+  assert.ok(Object.keys(pj).length >= 9);
+});
+
+test("Monatsübersicht: Soll aus Woche × 4,33, gestempelt, Abwesenheitstage je Art", () => {
+  const s = neu();
+  const p = s.personen.find((x) => x.vorname === "Tom");
+  s.stempel.push({ id: "x1", personId: p.id, filiale: "och", art: "kommen", zeit: "2026-10-05T09:00" }, { id: "x2", personId: p.id, filiale: "och", art: "gehen", zeit: "2026-10-05T15:00" });
+  s.abwesenheiten.push({ id: "ab1", personId: p.id, art: "krank", von: "2026-10-12", bis: "2026-10-14", status: "gemeldet" }, { id: "ab2", personId: p.id, art: "urlaub", von: "2026-10-29", bis: "2026-11-03", status: "genehmigt" });
+  const m = L.monatsuebersicht(s, "2026-10", "och").find((x) => x.person.id === p.id);
+  assert.equal(m.sollMin, Math.round(35 * 4.33 * 60));
+  assert.ok(m.istMin >= 330); assert.equal(m.abw.krank, 3); assert.equal(m.abw.urlaub, 2); // 29. und 30. Okt (Do, Fr), Samstag zählt nicht
+});
