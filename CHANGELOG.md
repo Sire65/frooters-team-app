@@ -1,5 +1,13 @@
 # Änderungen frooters Team-App
 
+## 0.6.0 (DEV) · 05.11.2026
+- Stundenumfang je Mitarbeiter in den Stammdaten (pro Woche oder pro Monat, z. B. 15 Std./Woche oder 40 Std./Monat bei Aushilfen)
+- Einplanen über den Stundenumfang: Rückfrage „Trotzdem einplanen?“ mit bisherigen und neuen Stunden (Aushilfen: Hinweis Minijob-Grenze); der Planvorschlag plant niemanden über den Umfang
+- Kachel „Abwesenheit“ statt „Krank melden“ und „Urlaub“: Urlaub, Krankmeldung, Kind krank, Bildungsurlaub, Sonderurlaub, Freizeitausgleich, Schule, unbezahlter Urlaub; Krank gilt sofort, alles andere nach Genehmigung, beantragte Anträge lassen sich zurückziehen
+- Urlaubskonto: Anspruch, Übertrag, genommen, geplant, beantragt, Rest (Arbeitstage Mo–Fr); Bildungsurlaub als eigenes Konto; Anspruch, Übertrag und Bildungsurlaub in den Stammdaten
+- Anträge für alle genehmigungspflichtigen Arten mit Tagen, Kontostand nach Genehmigung und Hinweis, wer in der Zeit schon fehlt
+- Urlaubsübersicht für die Leitung: Filter Filialen (eigene, alle, bestimmte) und Art; Monatskalender je Person, Urlaubskonten je Person, Liste. Krankmeldungen aus fremden Filialen erscheinen nur als „abwesend“ (außer für den Inhaber)
+
 ## 0.5.0 (DEV) · 05.11.2026
 - Pinnwand wie in der Club-App: Zettel in 4 Farben (leicht schräg), für alle im Shop, die Leitung, bestimmte Personen, nur für mich oder (Inhaber) alle Filialen; ❗ wichtig mit „Gelesen und verstanden“; optional „hängt bis“
 - Lesebestätigung: Fenster mit neuen Zetteln beim Öffnen, „✓ Gelesen“ je Zettel; Verfasser und Leitung sehen, wer wann gelesen hat und wer noch nicht, und können erinnern

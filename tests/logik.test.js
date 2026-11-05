@@ -320,3 +320,52 @@ test("Arbeitszeit: niemand wird über 10 Std. am Tag eingeplant", () => {
     for (const [id, m] of Object.entries(proPerson)) assert.ok(m <= 600, `${d} ${id}: ${m} Min.`);
   }
 });
+
+test("Urlaubskonto: Anspruch, Übertrag, genommen, geplant, beantragt, Rest; Arbeitstage Mo–Fr", () => {
+  const s = neu();
+  const p = { id: "u1", urlaubsanspruch: 30, urlaubUebertrag: 2 };
+  s.abwesenheiten = [
+    { personId: "u1", art: "urlaub", von: "2026-03-02", bis: "2026-03-13", status: "genehmigt" }, // 10 Tage, vorbei
+    { personId: "u1", art: "urlaub", von: "2026-11-02", bis: "2026-11-06", status: "genehmigt" }, // läuft: 3 genommen, 2 geplant
+    { personId: "u1", art: "urlaub", von: "2026-12-21", bis: "2026-12-24", status: "beantragt" },
+    { personId: "u1", art: "urlaub", von: "2026-08-03", bis: "2026-08-07", status: "abgelehnt" },
+    { personId: "u1", art: "bildungsurlaub", von: "2026-09-14", bis: "2026-09-16", status: "genehmigt" },
+  ];
+  const k = L.urlaubskonto(s, p, "2026", "2026-11-05");
+  assert.deepEqual(k, { anspruch: 30, uebertrag: 2, genommen: 13, geplant: 2, beantragt: 4, rest: 17 });
+  assert.equal(L.urlaubskonto(s, p, "2026", "2026-11-05", "bildung").genommen, 3);
+  assert.equal(L.urlaubsTage("2026-11-02", "2026-11-08"), 5);
+  assert.equal(L.urlaubsTage("2026-11-02", "2026-11-08", "mo-sa"), 6);
+});
+
+test("Abwesenheit: Krank gilt sofort, Urlaub erst genehmigt, abgelehnt und zurückgezogen nie", () => {
+  const s = neu();
+  const id = pid(s, "Lena"), tag = "2026-11-12";
+  s.abwesenheiten = [{ personId: id, art: "bildungsurlaub", von: tag, bis: tag, status: "beantragt" }];
+  assert.equal(L.abwesenheitAm(s, id, tag), undefined);
+  s.abwesenheiten[0].status = "genehmigt";
+  assert.ok(L.abwesenheitAm(s, id, tag));
+  s.abwesenheiten = [{ personId: id, art: "kind_krank", von: tag, bis: tag, status: "gemeldet" }];
+  assert.ok(L.abwesenheitAm(s, id, tag));
+  s.abwesenheiten[0].status = "zurueckgezogen";
+  assert.equal(L.abwesenheitAm(s, id, tag), undefined);
+});
+
+test("Stundenumfang: Woche oder Monat, Überschreitung wird erkannt und im Vorschlag vermieden", () => {
+  const s = neu();
+  const jonas = s.personen.find((p) => p.vorname === "Jonas");
+  assert.equal(jonas.stundenEinheit, "monat");
+  const tag = "2026-11-12";
+  const st = L.stundenStand(s, jonas, tag, 600);
+  assert.equal(st.einheit, "monat");
+  assert.equal(st.neu, Math.round((L.stundenImMonat(s, jonas.id, tag) + 10) * 10) / 10);
+  const lena = s.personen.find((p) => p.vorname === "Lena");
+  lena.wochenstunden = 5;
+  assert.equal(L.stundenStand(s, lena, "2026-11-04", 330).ueber, true);
+  s.plan = s.plan.filter((x) => x.datum < "2026-11-09");
+  const neuS = L.planVorschlag(s, "och", "2026-11-09", (() => { let n = 0; return () => "v" + n++; })());
+  for (const p of s.personen) {
+    const vorher = 0, min = neuS.filter((x) => x.personId === p.id).reduce((n, x) => { const z = L.planZeit(s, x); return n + z.ende - z.start; }, 0) / 60;
+    if (p.stundenEinheit !== "monat" && p.wochenstunden) assert.ok(vorher + min <= p.wochenstunden, `${p.vorname}: ${min} > ${p.wochenstunden}`);
+  }
+});
