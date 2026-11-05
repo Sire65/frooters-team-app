@@ -1,5 +1,15 @@
 # Änderungen frooters Team-App
 
+## 0.5.0 (DEV) · 05.11.2026
+- Pinnwand wie in der Club-App: Zettel in 4 Farben (leicht schräg), für alle im Shop, die Leitung, bestimmte Personen, nur für mich oder (Inhaber) alle Filialen; ❗ wichtig mit „Gelesen und verstanden“; optional „hängt bis“
+- Lesebestätigung: Fenster mit neuen Zetteln beim Öffnen, „✓ Gelesen“ je Zettel; Verfasser und Leitung sehen, wer wann gelesen hat und wer noch nicht, und können erinnern
+- Antworten mit eigenem Zettel an den Verfasser, Filter (ungelesen, für mich, wichtig, von mir), Erinnerung an eigene Zettel, die lange hängen („abnehmen“ oder „hängen lassen“)
+- Verwalten (Verfasser, Shopleitung, Inhaber): wichtig an/aus, ganz abnehmen oder nur bei denen, die gelesen haben
+- Admin: Pinnwand-Einstellungen (Zettel je Person, Zeichen, Erinnern nach Tagen, Pause)
+- Besetzungsmatrix je Filiale und Tagesart (Mo–Fr, Sa, So, Einsatz) mit Zeitblöcken: Personen, Shopleitung, weitere Leitung, feste Mitarbeiter, höchstens Aushilfen
+- Grafische Wochenübersicht (Stundenraster mit Ampel und „da / nötig“), Tagesansicht mit Balken je Person und Rolle, Liste aller nicht richtig besetzten Zeiten mit Grund und „+ einteilen“
+- Planvorschlag beachtet die Matrix (fehlt eine Leitung, zuerst Leitung; zu viele Aushilfen, keine weiteren) und plant niemanden über 10 Std. am Tag
+
 ## 0.4.1 (DEV) · 05.11.2026
 - Original-Logo von frooters oben in der App und auf der Startseite, Frootie (Erdbeere mit grüner Kappe, Vorschlag 1) größer bei der Begrüßung und in den Hilfetexten
 

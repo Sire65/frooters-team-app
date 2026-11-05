@@ -261,3 +261,62 @@ test("Admin: Verbindungsdaten nur Frankfurt, Freigabe erst nach automatischer Pr
   assert.ok(st.verbindung.fehler.some((f) => f.includes("Frankfurt")));
   assert.ok(L.pruefeVerbindung({ supabase: { url: "https://falsch.example.com" }, neon: {} }).fehler.length);
 });
+
+test("Besetzungsmatrix: Vorgaben je Rolle (Personen, Leitung, feste Mitarbeiter, Aushilfen)", () => {
+  const b = { gesamt: 3, sl: 0, stv: 1, ma: 1, maxAus: 1 };
+  const P = (rolle) => ({ rolle });
+  assert.equal(L.slotPruefen(b, [P("stv"), P("mitarbeiter"), P("aushilfe")]).status, "gruen");
+  assert.equal(L.slotPruefen(b, [P("stv"), P("mitarbeiter")]).status, "rot");
+  const ohneLeitung = L.slotPruefen(b, [P("mitarbeiter"), P("mitarbeiter"), P("aushilfe")]);
+  assert.equal(ohneLeitung.status, "gelb");
+  assert.ok(ohneLeitung.gruende.some((g) => g.includes("Leitung")));
+  const aushilfen = L.slotPruefen(b, [P("shopleitung"), P("aushilfe"), P("aushilfe")]);
+  assert.equal(aushilfen.status, "gelb");
+  assert.ok(aushilfen.gruende.some((g) => g.includes("Aushilfen")));
+  assert.equal(L.slotPruefen({ gesamt: 2, sl: 1, stv: 0, ma: 0 }, [P("stv"), P("mitarbeiter")]).gruende[0], "keine Shopleitung");
+  assert.equal(L.slotPruefen(b, [P("stv"), P("mitarbeiter"), P("mitarbeiter"), P("aushilfe")]).status, "ueber");
+});
+
+test("Besetzung: Lücken eines Tages werden zu Zeiträumen zusammengefasst, Krankmeldung zählt nicht mit", () => {
+  const s = neu();
+  const tag = "2026-11-10", f = s.filialen.find((x) => x.id === "och");
+  s.plan = [{ id: "a", filiale: "och", datum: tag, schicht: "frueh", personId: pid(s, "Tom") }, { id: "b", filiale: "och", datum: tag, schicht: "frueh", personId: pid(s, "Lena") }];
+  const l = L.besetzungsLuecken(s, "och", tag);
+  assert.ok(l.length >= 1);
+  assert.equal(l[l.length - 1].bis, L.oeffnung(f, tag).zu, "nachmittags bis Ladenschluss niemand");
+  assert.equal(L.besetzungsLuecken(s, "och", tag).filter((x) => x.von < 14 * 60).length, 0, "vormittags passt es (Tom ist Leitung)");
+  s.abwesenheiten.push({ id: "k", personId: pid(s, "Tom"), art: "krank", von: tag, bis: tag });
+  assert.ok(L.besetzungsLuecken(s, "och", tag).some((x) => x.von === 10 * 60 && x.gruende.some((g) => g.includes("Leitung"))));
+});
+
+test("Pinnwand: Empfänger, gelesen, abnehmen nur bei Lesern", () => {
+  const s = neu();
+  const heute = "2026-11-05";
+  const z = { id: "z1", filiale: "och", vonId: pid(s, "Sandra"), text: "Test", zeit: heute + "T08:00", wichtig: true, farbe: 1, fuer: "alle", empfaenger: [], gelesen: {}, abgenommen: {} };
+  s.pinnwand = [z];
+  const empf = L.pinEmpfaenger(s, z);
+  assert.ok(empf.includes(pid(s, "Lena")));
+  assert.ok(empf.includes(pid(s, "Mia")), "Springerin für Ochtrup bekommt Zettel");
+  assert.ok(!empf.includes(pid(s, "Anna")), "Oberhausen nicht");
+  assert.ok(!empf.includes(pid(s, "Sandra")), "Verfasserin nicht");
+  const lena = s.personen.find((p) => p.vorname === "Lena");
+  assert.equal(L.pinUngelesen(s, lena, heute).length, 1);
+  z.gelesen[lena.id] = heute + "T09:00";
+  assert.equal(L.pinUngelesen(s, lena, heute).length, 0);
+  assert.equal(L.pinStand(s, z).gelesen.length, 1);
+  z.abgenommen[lena.id] = heute + "T10:00";
+  assert.equal(L.pinSichtbar(s, z, lena, heute), false);
+  assert.equal(L.pinSichtbar(s, z, s.personen.find((p) => p.vorname === "Leonie"), heute), true, "bei Nicht-Lesern hängt er weiter");
+  const leit = { ...z, id: "z2", fuer: "leitung" };
+  assert.deepEqual(L.pinEmpfaenger(s, leit), [pid(s, "Tom")]);
+  assert.equal(L.pinAktiv({ ...z, bis: "2026-11-04" }, heute), false, "abgelaufen");
+});
+
+test("Arbeitszeit: niemand wird über 10 Std. am Tag eingeplant", () => {
+  const s = neu();
+  for (const f of s.filialen) for (const d of L.woche(L.montag(MITTWOCH))) {
+    const proPerson = {};
+    for (const x of L.schichtenAm(s, d, (y) => y.personId)) { const z = L.planZeit(s, x); if (z) proPerson[x.personId] = (proPerson[x.personId] || 0) + z.ende - z.start; }
+    for (const [id, m] of Object.entries(proPerson)) assert.ok(m <= 600, `${d} ${id}: ${m} Min.`);
+  }
+});

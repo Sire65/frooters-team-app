@@ -1,4 +1,4 @@
-# frooters Team-App (Testversion 0.4.0, DEV)
+# frooters Team-App (Testversion 0.5.0, DEV)
 
 Handy- und Tablet-App (PWA) für alle frooters-Filialen. Aufbau wie die Köcheclub Club-App: Programm ohne Build-Schritt,
 Kacheln je Rolle, Frootie als Helfer (statt Twinkey), Versionsvertrag mit atomarem Update.
@@ -24,8 +24,8 @@ npm test                       # Logik- und Vertragstests (node --test)
 | Mein Bereich | Mitarbeiter, Aushilfen, Leitung | Mein Dienstplan (auch Springer-Einsätze), Dienstwünsche (möchte / kann / kann nicht, Früh oder Spät), Krank melden (Shopleitung wird informiert, Schichten werden offen), Urlaubsantrag, **Tauschbörse** (Schicht oder Stunden abgeben, übernehmen, gegen eigene Schicht tauschen), Stechuhr mit Pausenhinweis | FR-PLANUNG, FR-TAUSCH, FR-FEHLZEITEN, FR-STECHUHR |
 | Hygiene | alle im Shop | Tagesliste aus Regeln, Geräten, Öffnungszeit und Einsatzplan, abhaken mit Messwert, Maßnahme bei Abweichung, automatische Nachkontrolle, Meldung an die Shopleitung | FR-HYG-03 bis 09 |
 | Rezepte | alle | nach Warengruppen, Mengen je Größe, Allergene, Zubereitung, **Rezept-Quiz** (Frage und Antwort) | FR-REZEPTE |
-| Pinnwand | alle | Zettel je Filiale und für alle | FR-PINNWAND |
-| Shopleitung / Stellvertretung | Leitung der eigenen Filiale | Einsatzplan (Woche, Ampel, Vorschlag erst mit eigenem Team, dann mit Springern, Veröffentlichen), Anträge genehmigen (Urlaub und Schichttausch), Krank und offene Schichten, Hygiene-Kontrolle (7 Tage), Regeln und Geräte des Shops (gilt hier / trifft nicht zu, eigene Uhrzeit, Gerät gestört), Stempelzeiten, Stundenliste mit CSV-Export für den Steuerberater, Team | FR-PLANUNG, FR-HYG-05, FR-HYG-10 |
+| Pinnwand | alle | wie in der Club-App: Farben, Empfänger, ❗ wichtig, Lesebestätigung mit Übersicht wer gelesen hat, Antworten, Erinnern, Abnehmen (auch nur bei Lesern), Einstellungen im Admin | FR-PINNWAND |
+| Shopleitung / Stellvertretung | Leitung der eigenen Filiale | Einsatzplan (Woche, Ampel, Vorschlag erst mit eigenem Team, dann mit Springern, Veröffentlichen), **Besetzungsmatrix** mit Rollenvorgaben, grafische Übersicht und Lückenliste, Anträge genehmigen (Urlaub und Schichttausch), Krank und offene Schichten, Hygiene-Kontrolle (7 Tage), Regeln und Geräte des Shops (gilt hier / trifft nicht zu, eigene Uhrzeit, Gerät gestört), Stempelzeiten, Stundenliste mit CSV-Export für den Steuerberater, Team | FR-PLANUNG, FR-HYG-05, FR-HYG-10 |
 | Qualität & Pflege | feste Person | Hygieneregeln und Rezepte für alle Filialen pflegen, Hygiene-Kontrolle | FR-REZEPTE, FR-HYG-02 |
 | Hygieneberater | extern, nur lesen | Hygiene-Tagesliste und Kontrolle aller Filialen ansehen, nichts ändern | FR-HYG-10 |
 | Zentrale (Inhaber) | Zentrale | Auswertung je Filiale und gesamt, Mitarbeiter-Stammdaten mit **Springer-Haken und Einsatzfilialen**, Filialen (Öffnungszeiten, Besetzung), Hygieneregeln global (Assistent in 6 Schritten), **Admin: Betreiber und eigene Datenbanken je Franchisenehmer** (`docs/ADMIN-MANDANTEN-KONZEPT.md`), Rezepte pflegen, Sortiment je Filiale, Einsätze des mobilen Stands | FR-PERSONAL, FR-ORG, FR-HYG-02 |
@@ -46,7 +46,7 @@ Pflichtregeln kann nur die Zentrale abschalten. Nicht erledigte Aufgaben werden 
 | `app.js` | Oberfläche, Ansichten, Aktionen |
 | `sw.js` | Service Worker: alle Dateien einer Version zusammen (alles oder nichts) |
 | `version.json`, `manifest.webmanifest`, `frootie.svg`, `icon-*.png` | Version, Installation, Frootie |
-| `tests/` | `logik.test.js` (24 Fachtests), `vertrag.test.js` (Versionsvertrag, Service Worker, Sicherheit, Hilfetexte) |
+| `tests/` | `logik.test.js` (28 Fachtests), `vertrag.test.js` (Versionsvertrag, Service Worker, Sicherheit, Hilfetexte) |
 
 **Version:** `APP_VERSION` (app.js) = `VERSION` (sw.js) = `version.json` = alle `?v=` in index.html. Jede Änderung erhöht alle gemeinsam, der Test prüft das.
 
