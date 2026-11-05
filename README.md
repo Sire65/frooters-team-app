@@ -1,4 +1,4 @@
-# frooters Team-App (Testversion 0.6.0, DEV)
+# frooters Team-App (Testversion 0.7.0, DEV)
 
 Handy- und Tablet-App (PWA) für alle frooters-Filialen. Aufbau wie die Köcheclub Club-App: Programm ohne Build-Schritt,
 Kacheln je Rolle, Frootie als Helfer (statt Twinkey), Versionsvertrag mit atomarem Update.
@@ -40,13 +40,14 @@ Pflichtregeln kann nur die Zentrale abschalten. Nicht erledigte Aufgaben werden 
 
 | Datei | Inhalt |
 |---|---|
-| `index.html` | Seite mit Content-Security-Policy, lädt die drei Programmdateien mit `?v=<Version>` |
+| `index.html` | Seite mit Content-Security-Policy, lädt die Programmdateien mit `?v=<Version>` |
 | `logik.js` | reine Rechenlogik (Planung, Springer, Abdeckung, Hygiene-Tagesliste, Grenzwerte, Stechuhr, Quiz), auch in Node testbar |
 | `daten.js` | Daten-Adapter (Registry) und Beispieldaten. Ein Adapter `supabase` muss `laden`, `speichern`, `zuruecksetzen` liefern. |
+| `buero.js` | Büro: Ordner und Rechte, Vorlagen des Grafik- & Druckstudios, Druckblätter, Briefe, Hygiene-Bericht |
 | `app.js` | Oberfläche, Ansichten, Aktionen |
 | `sw.js` | Service Worker: alle Dateien einer Version zusammen (alles oder nichts) |
 | `version.json`, `manifest.webmanifest`, `frootie.svg`, `icon-*.png` | Version, Installation, Frootie |
-| `tests/` | `logik.test.js` (31 Fachtests), `vertrag.test.js` (Versionsvertrag, Service Worker, Sicherheit, Hilfetexte) |
+| `tests/` | `logik.test.js` (Fachtests), `buero.test.js` (Ordnerrechte, Preise, Druckblätter), `vertrag.test.js` (Versionsvertrag, Service Worker, Sicherheit, Hilfetexte); zusammen 39 Tests |
 
 **Version:** `APP_VERSION` (app.js) = `VERSION` (sw.js) = `version.json` = alle `?v=` in index.html. Jede Änderung erhöht alle gemeinsam, der Test prüft das.
 

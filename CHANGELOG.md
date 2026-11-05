@@ -1,5 +1,13 @@
 # Änderungen frooters Team-App
 
+## 0.7.0 (DEV) · 05.11.2026
+- Kachel „🗂️ Büro“ für Leitung, Zentrale, Qualität und Hygieneberater: Ordner-Regal, der Inhaber sieht alle 11 Ordner, Shopleitungen 6 (Standard)
+- Ordner: Grafik- & Druckstudio, Shop-Unterlagen, Hygiene-Nachweise (Bericht zum Drucken, 7 oder 30 Tage), Adressen & Lieferanten, Lohn & Stunden, Archiv, Personalakte (nur Inhaber), Briefe (Briefpapier), Zentrale, Auswertungen, Freigaben
+- Freigaben (nur Inhaber): je Ordner und Rolle an/aus; „Zentrale“ und „Freigaben“ bleiben beim Inhaber
+- Grafik- & Druckstudio im frooters-Design: Preisliste (Vorschlag aus den Rezepten der Filiale), Schild/Hinweis, Öffnungszeiten (aus den Filialdaten, beim Road Runner die nächsten Einsätze), Aktion/Angebot, Allergen-Aushang (aus den Rezepten), Aushang fürs Team
+- Live-Vorschau, Hoch-/Querformat, 4 Farben, Symbole, Frootie; Drucken über den Druckdialog (auch „Als PDF speichern“), Speichern im Ordner, später erneut drucken
+- Lange Listen werden automatisch kleiner gesetzt, damit nichts vom Blatt fällt; Preise werden nie erfunden: leere Preise erscheinen als „… €“
+
 ## 0.6.0 (DEV) · 05.11.2026
 - Stundenumfang je Mitarbeiter in den Stammdaten (pro Woche oder pro Monat, z. B. 15 Std./Woche oder 40 Std./Monat bei Aushilfen)
 - Einplanen über den Stundenumfang: Rückfrage „Trotzdem einplanen?“ mit bisherigen und neuen Stunden (Aushilfen: Hinweis Minijob-Grenze); der Planvorschlag plant niemanden über den Umfang

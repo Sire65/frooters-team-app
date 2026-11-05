@@ -20,7 +20,7 @@ test("Versionsvertrag: app.js, sw.js, version.json und index.html nennen dieselb
 
 test("Service Worker speichert alle Programmdateien der Version", () => {
   const sw = lies("sw.js");
-  for (const f of ["styles.css", "logik.js", "daten.js", "app.js", "frootie.svg", "logo.svg", "manifest.webmanifest"]) assert.ok(sw.includes(f), f);
+  for (const f of ["styles.css", "logik.js", "daten.js", "buero.js", "app.js", "frootie.svg", "logo.svg", "manifest.webmanifest"]) assert.ok(sw.includes(f), f);
   for (const f of ["frootie.svg", "logo.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"]) assert.ok(fs.existsSync(path.join(__dirname, "..", f)), f + " fehlt");
 });
 
@@ -28,7 +28,7 @@ test("Sicherheit: Content-Security-Policy ohne fremde Skripte, keine Schlüssel 
   const idx = lies("index.html");
   assert.match(idx, /Content-Security-Policy/);
   assert.match(idx, /script-src 'self';/);
-  for (const f of ["app.js", "logik.js", "daten.js", "sw.js", "index.html"]) {
+  for (const f of ["app.js", "logik.js", "daten.js", "buero.js", "sw.js", "index.html"]) {
     const t = lies(f);
     assert.doesNotMatch(t, /eyJ[a-zA-Z0-9_-]{20,}/, f + ": JWT im Code");
     assert.doesNotMatch(t, /(sk|service_role)[_-][a-zA-Z0-9]{16,}/, f + ": Schlüssel im Code");
