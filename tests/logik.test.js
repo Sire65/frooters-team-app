@@ -453,3 +453,58 @@ test("Mitarbeiter-Import aus Excel (CSV mit Semikolon, Kopfzeile, Umlaute)", () 
   const r2 = L.mitarbeiterImport(s, "Sandra\tBecker\toch\tShopleitung\tVollzeit\t38\tWoche\t30");
   assert.equal(r2.zeilen[0].doppelt, true);
 });
+
+// ---------- 0.9.0: Zutaten mit Allergenen, Rezepte rechnen sie aus, 4-Augen-Freigabe, Fassungen ----------
+test("Zutatenstamm: Allergene kommen aus der Zutat, Spuren getrennt", () => {
+  const s = neu();
+  assert.ok(s.rezepte.zutaten.length > 20);
+  const waffel = s.rezepte.rezepte.find((r) => r.name === "Waffel Classic");
+  assert.ok(waffel.zutaten.every((l) => l.zutatId));
+  const granola = L.zutatFinden(s, "  granola ");
+  assert.deepEqual(L.zutatAllergene(granola), { ja: ["Gluten", "Schalenfrüchte"], spuren: ["Erdnüsse", "Sesam"] });
+  L.allergeneAktualisieren(s);
+  const mitGranola = s.rezepte.rezepte.find((r) => r.zutaten.some((l) => l.zutatId === granola.id));
+  assert.ok(L.spurenVon(mitGranola).includes("Sesam"));
+});
+
+test("4-Augen-Freigabe: eigene Änderung nicht, Mitarbeiter nicht, zweite Person ja; Fassung steigt, alte bleibt lesbar", () => {
+  const s = neu();
+  const pid2 = (v) => s.personen.find((p) => p.vorname === v).id;
+  const zt = L.zutatFinden(s, "Froyo-Basis Natur");
+  const rz = s.rezepte.rezepte.filter((r) => r.zutaten.some((l) => l.zutatId === zt.id));
+  L.entwurfSpeichern(s, "zutat", zt.id, { name: zt.name, lieferant: "", artNr: "", zusatzstoffe: "", allergene: { Milch: "ja", Soja: "ja" } }, pid2("Petra"), "2026-11-05T10:00");
+  assert.ok(!L.allergeneVon(rz[0]).includes("Soja"), "vor Freigabe gilt die alte Fassung");
+  assert.match(L.aenderungen(s, "zutat", zt.id).join(" "), /enthält neu: Soja/);
+  assert.equal(L.freigabePruefen(s, "zutat", zt.id, pid2("Petra")).moeglich, false);
+  assert.equal(L.freigabePruefen(s, "zutat", zt.id, pid2("Lena")).moeglich, false);
+  const r = L.freigeben(s, "zutat", zt.id, pid2("Inhaber"), "2026-11-05T11:00");
+  assert.equal(r.moeglich, true); assert.equal(zt.fassung, 2); assert.equal(zt.fassungen[0].daten.allergene.Soja, undefined);
+  assert.ok(rz.every((x) => L.allergeneVon(x).includes("Soja")), "alle Rezepte mit der Zutat rechnen neu");
+  assert.equal(L.offeneFreigaben(s).some((x) => x.e === zt), false);
+});
+
+test("Rezept-Entwurf: unbekannte Zutat gemeldet, ungeprüfte Zutat sperrt die Freigabe, neues Rezept erst nach Freigabe sichtbar", () => {
+  const s = neu();
+  const pid2 = (v) => s.personen.find((p) => p.vorname === v).id;
+  const z = L.zutatenZeilen(s, "Froyo-Basis Natur | 100/150/200 | g\nKokos-Chips | 5/8/10 | g\nApfel | x | g", ["S", "M", "L"]);
+  assert.equal(z.zutaten.length, 1); assert.deepEqual(z.unbekannt, ["Kokos-Chips"]); assert.equal(z.fehler.length, 1);
+  s.rezepte.zutaten.push({ id: "ztneu", name: "Kokos-Chips", allergene: {}, neu: true, entwurf: { daten: { name: "Kokos-Chips", lieferant: "", artNr: "", zusatzstoffe: "", allergene: {} }, von: pid2("Petra"), am: "2026-11-05T09:00" } });
+  const r = { id: "rneu", gruppe: "froyo", name: "Froyo Kokos", beschreibung: "", groessen: ["S", "M", "L"], zutaten: [], schritte: [], neu: true };
+  s.rezepte.rezepte.push(r);
+  const z2 = L.zutatenZeilen(s, "Froyo-Basis Natur | 100/150/200 | g\nKokos-Chips | 5/8/10 | g", ["S", "M", "L"]);
+  L.entwurfSpeichern(s, "rezept", r.id, { ...r, zutaten: z2.zutaten, schritte: ["Einfüllen"] }, pid2("Petra"), "2026-11-05T10:00");
+  assert.equal(L.rezepteFreigegeben(s).includes(r), false);
+  assert.match(L.freigabePruefen(s, "rezept", r.id, pid2("Inhaber")).grund, /Kokos-Chips/);
+  assert.equal(L.freigeben(s, "zutat", "ztneu", pid2("Inhaber"), "2026-11-05T10:30").moeglich, true);
+  assert.equal(L.freigeben(s, "rezept", r.id, pid2("Sandra"), "2026-11-05T11:00").moeglich, true);
+  assert.equal(r.fassung, 1); assert.equal(r.neu, undefined); assert.ok(L.rezepteFreigegeben(s).includes(r));
+  assert.deepEqual(L.allergeneVon(r), ["Milch"]);
+});
+
+test("Entwurf verwerfen: neue Einträge verschwinden, bestehende behalten die freigegebene Fassung", () => {
+  const s = neu();
+  const zt = s.rezepte.zutaten.find((z) => z.entwurf);
+  assert.ok(zt, "Beispieldaten haben eine offene Änderung");
+  assert.ok(L.entwurfVerwerfen(s, "zutat", zt.id));
+  assert.equal(zt.entwurf, undefined); assert.ok(s.rezepte.zutaten.includes(zt));
+});

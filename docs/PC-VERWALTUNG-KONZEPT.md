@@ -185,7 +185,7 @@ protokoll:  {wer, wann, was, alt, neu}
 | Stufe | Inhalt | Wo |
 |---|---|---|
 | 1 ✅ | PC-Ansicht (Seitenleiste, Tabellen), Filialen, Mitarbeiter mit Beschäftigungsart, Umfang, „darf überschreiten“, Einsatzprofil, Springer, Qualifikationen, Excel-Import | **gebaut in 0.8.0** (Testversion mit Beispieldaten) |
-| 2 | Zutatenstamm, Allergene aus Zutaten, Rezept-Freigabe 4-Augen, Fassungen | Testversion |
+| 2 ✅ | Zutatenstamm, Allergene aus Zutaten, Rezept-Freigabe 4-Augen, Fassungen | **gebaut in 0.9.0** (Testversion) |
 | 3 | Artikelstamm, Sortiment je Filiale, Inventur am Handy, Bestellliste Soll − Ist, Bestellung als PDF | Testversion |
 | 4 | Gastronovi-Export einlesen, Umsatz je Stunde in der Dienstplanung, Stunden-Export Steuerberater | nach Klärung des Exports |
 | 5 | Verbrauchsprognose, Abgleich Soll-/Ist-Verbrauch, Bilderrechner-Erfassung (C1) | nach Stufe 4 |

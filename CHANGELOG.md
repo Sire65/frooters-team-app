@@ -1,5 +1,15 @@
 # Änderungen frooters Team-App
 
+## 0.9.0 (DEV) · 05.11.2026 · PC-Version Stufe 2
+- Zutaten & Allergene: Zutatenstamm mit Lieferant, Artikelnummer, Zusatzstoffen und den 14 Hauptallergenen je Zutat (enthält / Spuren / nein); am PC als Tabelle mit allen Allergenen
+- Rezepte rechnen ihre Allergene und Spuren aus den Zutaten; Zutatenzeilen ohne Allergene („Zutat | Mengen | Einheit“), unbekannte Zutaten werden neu angelegt
+- 4-Augen-Freigabe: Jede Änderung an Rezept oder Zutat ist zuerst ein Entwurf; gültig erst nach Freigabe durch eine zweite Person (Qualität & Pflege, Inhaber oder Shopleitung). Eigene Änderungen kann man nicht selbst freigeben. Ein Rezept mit ungeprüften Zutaten kann nicht freigegeben werden
+- Bis zur Freigabe sieht das Team die alte Fassung; neue Rezepte erscheinen erst nach der Freigabe in Rezepten, Quiz, Preisliste und Allergen-Aushang
+- Seite „Freigaben“ mit allen offenen Änderungen und was sich ändert (z. B. „enthält neu: Soja · betrifft: …“), Freigeben oder Verwerfen
+- Fassungen: Jede Freigabe ergibt eine neue Fassung, die alten bleiben lesbar
+- Rezept im Shop zeigt Spuren und Fassung; Allergen-Aushang mit ○ für Spuren
+- Shopleitung hat die Kachel „Rezepte pflegen“ (als zweite Person für Freigaben)
+
 ## 0.8.0 (DEV) · 05.11.2026 · PC-Version Stufe 1
 - PC-Ansicht ab 1100 Pixel Breite für Leitung, Zentrale und Qualität: Seitenleiste mit allen Bereichen und Zählern, breiter Inhalt; am Handy bleibt alles wie bisher
 - Mitarbeiter am PC als Tabelle mit Filtern (Filiale, Beschäftigung, Einsatz, Suche), Klick auf eine Zeile öffnet die Details rechts
