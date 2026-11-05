@@ -508,3 +508,45 @@ test("Entwurf verwerfen: neue Einträge verschwinden, bestehende behalten die fr
   assert.ok(L.entwurfVerwerfen(s, "zutat", zt.id));
   assert.equal(zt.entwurf, undefined); assert.ok(s.rezepte.zutaten.includes(zt));
 });
+
+// ---------- 0.10.0: Sortiment, Bestandsaufnahme, Bestellliste ----------
+test("Bestellvorschlag: Soll − Ist, aufgerundet auf volle Gebinde, Mindestbestand oben", () => {
+  const s = neu();
+  const v = L.bestellVorschlag(s, "och");
+  const froyo = v.find((z) => z.artikel.name === "Froyo-Basis Natur");
+  assert.equal(froyo.ist, 5); assert.equal(froyo.soll, 24); assert.equal(froyo.gebinde, 4); // 19 l fehlen, Karton à 6 l
+  assert.equal(froyo.unterMin, true);
+  assert.ok(v.findIndex((z) => !z.unterMin) > v.findIndex((z) => z.unterMin));
+  assert.equal(v.find((z) => z.artikel.name === "Servietten").gebinde, 0);
+  assert.equal(L.mengeText(froyo.artikel, 4), "4 Kartons à 6 l");
+  assert.equal(L.mengeText(froyo.artikel, 1), "1 Karton à 6 l");
+});
+
+test("Bestellvorschlag: ohne Bestandsaufnahme nichts raten, offene Bestellungen werden abgezogen", () => {
+  const s = neu();
+  const obh = L.bestellVorschlag(s, "obh");
+  assert.ok(obh.every((z) => !z.gezaehlt && z.gebinde === 0 && z.fehlt === null));
+  const v1 = L.bestellVorschlag(s, "och");
+  const froyo = v1.find((z) => z.artikel.name === "Froyo-Basis Natur").artikel;
+  let n = 0;
+  const neuB = L.bestellungenAnlegen(s, "och", { [froyo.id]: 2 }, "p1", "2026-11-05T10:00", () => "b" + n++);
+  assert.equal(neuB.length, 1); assert.equal(neuB[0].lieferant, froyo.lieferant);
+  const v2 = L.bestellVorschlag(s, "och").find((z) => z.artikel.id === froyo.id);
+  assert.equal(v2.unterwegs, 12); assert.equal(v2.gebinde, 2);
+  // Ware ist da, 1 Karton fehlt
+  const b = L.wareneingang(s, neuB[0].id, { [froyo.id]: 1 }, "p1", "2026-11-06T09:00");
+  assert.equal(b.status, "geliefert"); assert.deepEqual(b.geliefert.abweichungen, [{ artikel: froyo.id, bestellt: 2, geliefert: 1 }]);
+  assert.equal(L.unterwegs(s, "och", froyo.id), 0);
+  assert.equal(L.wareneingang(s, neuB[0].id, {}, "p1", "x"), null);
+});
+
+test("Bestellungen je Lieferant getrennt, Nullmengen werden ignoriert", () => {
+  const s = neu();
+  const v = L.bestellVorschlag(s, "och");
+  const mengen = Object.fromEntries(v.map((z) => [z.artikel.id, z.gebinde]));
+  let n = 0;
+  const b = L.bestellungenAnlegen(s, "och", mengen, "p1", "2026-11-05T10:00", () => "b" + n++);
+  const lieferanten = new Set(v.filter((z) => z.gebinde).map((z) => z.lieferant));
+  assert.equal(b.length, lieferanten.size);
+  assert.ok(b.every((x) => x.posten.every((p) => p.menge > 0) && x.status === "frei"));
+});

@@ -1,5 +1,13 @@
 # Änderungen frooters Team-App
 
+## 0.10.0 (DEV) · 05.11.2026 · PC-Version Stufe 3
+- Artikel & Lieferanten (Zentrale): Artikel mit Lieferant, Bestellnummer, Lagerort, Einheit, Gebinde (z. B. Karton à 6 l), Verknüpfung zur Zutat, optional Einkaufspreis; Lieferanten mit E-Mail, Telefon, Bestelltagen
+- Sortiment & Soll (Shopleitung): welche Artikel die Filiale führt, Sollbestand und Mindestbestand
+- Bestand aufnehmen am Handy, nach Lagerort sortiert, letzter Wert als Hilfe; leer = nicht gezählt
+- Bestellvorschlag je Lieferant: Soll − Ist − schon unterwegs, aufgerundet auf volle Gebinde; unter Mindestbestand rot und oben; ohne gezählten Bestand kein Vorschlag
+- Mengen prüfen und „Bestellung freigeben“: je Lieferant eine Bestellung; Drucken/PDF im frooters-Design, E-Mail vorbereiten (öffnet das Mailprogramm, nichts wird automatisch verschickt), „als bestellt markieren“
+- Wareneingang: mit dem Lieferschein vergleichen, Abweichungen werden notiert und der Shopleitung gemeldet
+
 ## 0.9.0 (DEV) · 05.11.2026 · PC-Version Stufe 2
 - Zutaten & Allergene: Zutatenstamm mit Lieferant, Artikelnummer, Zusatzstoffen und den 14 Hauptallergenen je Zutat (enthält / Spuren / nein); am PC als Tabelle mit allen Allergenen
 - Rezepte rechnen ihre Allergene und Spuren aus den Zutaten; Zutatenzeilen ohne Allergene („Zutat | Mengen | Einheit“), unbekannte Zutaten werden neu angelegt
