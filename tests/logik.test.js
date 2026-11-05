@@ -366,6 +366,90 @@ test("Stundenumfang: Woche oder Monat, Überschreitung wird erkannt und im Vorsc
   const neuS = L.planVorschlag(s, "och", "2026-11-09", (() => { let n = 0; return () => "v" + n++; })());
   for (const p of s.personen) {
     const vorher = 0, min = neuS.filter((x) => x.personId === p.id).reduce((n, x) => { const z = L.planZeit(s, x); return n + z.ende - z.start; }, 0) / 60;
-    if (p.stundenEinheit !== "monat" && p.wochenstunden) assert.ok(vorher + min <= p.wochenstunden, `${p.vorname}: ${min} > ${p.wochenstunden}`);
+    if (p.stundenEinheit !== "monat" && p.wochenstunden) assert.ok(vorher + min <= p.wochenstunden + L.darfUeberschreiten(p), `${p.vorname}: ${min} > ${p.wochenstunden}`);
   }
+});
+
+// ---------- 0.8.0: Beschäftigungsart, Einsatzprofil, Überschreiten, Jugendschutz, Import ----------
+test("darf Stunden überschreiten: bis zur Grenze ohne Rückfrage, nie bei Minijob und unter 18", () => {
+  const s = neu();
+  const p = s.personen.find((x) => x.vorname === "Lena");
+  s.plan = []; p.ueberschreiten = { erlaubt: false, bisStd: 0 };
+  p.wochenstunden = 5; p.stundenEinheit = "woche"; p.beschaeftigung = "teilzeit";
+  const tag = "2026-11-04";
+  let st = L.stundenStand(s, p, tag, 330);
+  assert.equal(st.ueber, true); assert.equal(st.ueberGrenze, true);
+  p.ueberschreiten = { erlaubt: true, bisStd: 3 };
+  st = L.stundenStand(s, p, tag, 330);
+  assert.equal(st.ueber, true); assert.equal(st.ueberGrenze, false); assert.equal(st.grenze, 8);
+  p.beschaeftigung = "minijob";
+  assert.equal(L.stundenStand(s, p, tag, 330).ueberGrenze, true);
+  p.beschaeftigung = "teilzeit"; p.unter18 = true;
+  assert.equal(L.stundenStand(s, p, tag, 330).ueberGrenze, true);
+});
+
+test("Einsatzprofil: nur Spätdienst, nur bis/ab Uhr, nur bestimmte Tage, nicht an Tagen", () => {
+  const p = { profil: { zeit: "spaet" } };
+  assert.deepEqual(L.profilPruefen(p, "2026-11-04", { start: 570, ende: 870 }, "spaet"), []);
+  assert.deepEqual(L.profilPruefen(p, "2026-11-04", { start: 570, ende: 870 }, "frueh"), ["nur Frühdienst".replace("Früh", "Spät")]);
+  assert.equal(L.profilPruefen({ profil: { zeit: "morgens", bis: "14:00" } }, "2026-11-04", { start: 570, ende: 870 }).length, 1);
+  assert.equal(L.profilPruefen({ profil: { zeit: "morgens", bis: "15:00" } }, "2026-11-04", { start: 570, ende: 870 }).length, 0);
+  assert.equal(L.profilPruefen({ profil: { zeit: "abends", ab: "16:00" } }, "2026-11-04", { start: 960, ende: 1230 }).length, 0);
+  assert.equal(L.profilPruefen({ profil: { zeit: "abends", ab: "16:00" } }, "2026-11-04", { start: 900, ende: 1230 }).length, 1);
+  assert.equal(L.profilPruefen({ profil: { tage: ["sa", "so"] } }, "2026-11-04", null).length, 1); // Mittwoch
+  assert.equal(L.profilPruefen({ profil: { tage: ["sa", "so"] } }, "2026-11-07", null).length, 0); // Samstag
+  assert.match(L.profilPruefen({ profil: { nichtTage: ["di"], nichtGrund: "Berufsschule" } }, "2026-11-03", null)[0], /Berufsschule/);
+});
+
+test("Planvorschlag hält Profil ein, Kandidaten zeigen Profil, Bereitschaft gibt Vorrang", () => {
+  const s = neu();
+  const f = s.filialen.find((x) => x.id === "och");
+  const leute = s.personen.filter((p) => p.stammfiliale === "och");
+  for (const p of leute) p.profil = { zeit: "spaet" };
+  let n = 1;
+  const vor = L.planVorschlag(s, "och", L.montag("2026-11-09"), () => "t" + n++);
+  assert.ok(vor.length > 0);
+  assert.ok(vor.every((x) => x.schicht === "spaet" || s.personen.find((p) => p.id === x.personId).stammfiliale !== "och"));
+  const k = L.kandidaten(s, "och", "2026-11-10", "frueh").find((x) => x.person.stammfiliale === "och");
+  assert.ok(k.gruende.some((g) => /Profil: nur Spätdienst/.test(g)));
+  const tom = leute[1]; tom.profil = { zeit: "flexibel", bereitschaft: [{ tag: "di", von: "08:00", bis: "14:00" }] };
+  const k2 = L.kandidaten(s, "och", "2026-11-10", "frueh").find((x) => x.person.id === tom.id);
+  assert.ok(k2.gruende.includes("in Bereitschaft"));
+  assert.ok(f);
+});
+
+test("Jugendschutz und kurzfristige Beschäftigung: Hinweise", () => {
+  const s = neu();
+  s.plan = [];
+  const p = s.personen.find((x) => x.vorname === "Leonie");
+  p.unter18 = true; p.ab16 = false;
+  const h = L.gesetzHinweise(s, p, "2026-11-04", { start: 17 * 60, ende: 20 * 60 + 30 });
+  assert.ok(h.some((x) => /nach 20:00/.test(x)));
+  p.ab16 = true;
+  assert.equal(L.gesetzHinweise(s, p, "2026-11-04", { start: 17 * 60, ende: 20 * 60 + 30 }).some((x) => /nach/.test(x)), false);
+  const q = s.personen.find((x) => x.vorname === "Jonas");
+  q.beschaeftigung = "kurzfristig"; s.parameter.grenzen = { kurzfristigTage: 2 };
+  s.plan.push({ id: "a", filiale: "och", datum: "2026-03-02", schicht: "frueh", personId: q.id }, { id: "b", filiale: "och", datum: "2026-03-03", schicht: "frueh", personId: q.id });
+  assert.ok(L.gesetzHinweise(s, q, "2026-11-04", { start: 570, ende: 870 }).some((x) => /3\. Arbeitstag/.test(x)));
+});
+
+test("Qualifikationen: Ablauf in 30 Tagen", () => {
+  const s = neu();
+  for (const x of s.personen) x.quali = [];
+  s.personen[3].quali = [{ art: "ifsg", bis: "2026-11-20" }, { art: "kasse", bis: "2027-06-01" }];
+  s.personen[4].quali = [{ art: "hygiene", bis: "2026-10-01" }];
+  const r = L.qualiAblauf(s, "2026-11-05", 30);
+  assert.equal(r.length, 2); assert.equal(r[0].abgelaufen, true); assert.equal(r[1].name, "Belehrung § 43 IfSG");
+});
+
+test("Mitarbeiter-Import aus Excel (CSV mit Semikolon, Kopfzeile, Umlaute)", () => {
+  const s = neu();
+  const csv = "﻿Vorname;Nachname;Filiale;Rolle;Beschäftigung;Stunden;Einheit;Urlaub\r\nKai;Muster;Ochtrup;Aushilfe;geringfügig;40;Monat;20\nEva;\"Beispiel, Dr.\";Sinsheim;Stellvertretung;Teilzeit;25,5;Woche;28\nX;Y;Limbecker;Chef;;abc;;\n";
+  const r = L.mitarbeiterImport(s, csv);
+  assert.equal(r.zeilen.length, 3);
+  assert.equal(r.zeilen[0].person.beschaeftigung, "minijob"); assert.equal(r.zeilen[0].person.stundenEinheit, "monat"); assert.equal(r.zeilen[0].person.stammfiliale, "och");
+  assert.equal(r.zeilen[1].person.nachname, "Beispiel, Dr."); assert.equal(r.zeilen[1].person.rolle, "stv"); assert.equal(r.zeilen[1].person.wochenstunden, 25.5);
+  assert.equal(r.zeilen[2].person, null); assert.equal(r.zeilen[2].fehler.length, 3);
+  const r2 = L.mitarbeiterImport(s, "Sandra\tBecker\toch\tShopleitung\tVollzeit\t38\tWoche\t30");
+  assert.equal(r2.zeilen[0].doppelt, true);
 });

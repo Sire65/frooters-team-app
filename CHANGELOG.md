@@ -1,5 +1,19 @@
 # Änderungen frooters Team-App
 
+## 0.8.0 (DEV) · 05.11.2026 · PC-Version Stufe 1
+- PC-Ansicht ab 1100 Pixel Breite für Leitung, Zentrale und Qualität: Seitenleiste mit allen Bereichen und Zählern, breiter Inhalt; am Handy bleibt alles wie bisher
+- Mitarbeiter am PC als Tabelle mit Filtern (Filiale, Beschäftigung, Einsatz, Suche), Klick auf eine Zeile öffnet die Details rechts
+- Neue Felder: Beschäftigungsart (Vollzeit, Teilzeit, Minijob, kurzfristig, Werkstudent, Azubi, Schüler/Ferienjob, Praktikum), Eintritt, befristet bis, unter 18 (ab 16)
+- „Darf Stunden überschreiten“ mit Grenze (z. B. +5 Std.): keine Rückfrage bis zur Grenze, der Planvorschlag darf bis dahin planen; gilt nie bei Minijob und unter 18
+- Einsatzprofil: total flexibel, nur Frühdienst, nur Spätdienst, nur morgens bis … Uhr, nur abends ab … Uhr, nur an bestimmten Tagen, nicht an Tagen (mit Grund); Bereitschaftsdienst mit Zeitfenstern
+- Springer mit Anreise (Auto, Bus/Bahn, braucht Fahrt) und Fahrzeit je Filiale
+- Qualifikationen mit Ablaufdatum (Belehrung § 43 IfSG, Hygieneschulung, Allergenschulung, Kasse, Schlüssel, Führerschein); Hinweis auf der Startseite, wenn etwas in 30 Tagen abläuft
+- Planung: Profil ist feste Regel im Planvorschlag; beim Einteilen von Hand Rückfrage „Trotzdem einplanen?“ bei Profil, Stunden und Jugendschutz; Bereitschaft wird bevorzugt vorgeschlagen
+- Hinweise (warnen nur): Jugendschutz (8 Std./Tag, 40 Std./Woche, 5 Tage, abends 20 bzw. 22 Uhr), kurzfristig (70 Tage im Jahr), Werkstudent (20 Std./Woche). Werte vorläufig, vom Steuerberater bestätigen
+- Mitarbeiter aus Excel einlesen (CSV oder Kopieren/Einfügen) mit Vorschau, Fehlern je Zeile und Vorlage zum Herunterladen
+- Shopleitung pflegt die Mitarbeiter der eigenen Filiale (Kachel „Mitarbeiter“)
+- Filialen mit Bundesland (für Feiertage) und Übersichtstabelle am PC
+
 ## 0.7.0 (DEV) · 05.11.2026
 - Kachel „🗂️ Büro“ für Leitung, Zentrale, Qualität und Hygieneberater: Ordner-Regal, der Inhaber sieht alle 11 Ordner, Shopleitungen 6 (Standard)
 - Ordner: Grafik- & Druckstudio, Shop-Unterlagen, Hygiene-Nachweise (Bericht zum Drucken, 7 oder 30 Tage), Adressen & Lieferanten, Lohn & Stunden, Archiv, Personalakte (nur Inhaber), Briefe (Briefpapier), Zentrale, Auswertungen, Freigaben
