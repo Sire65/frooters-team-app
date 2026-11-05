@@ -140,6 +140,8 @@ Die Prüfung der Rechte läuft **immer auf dem Server** (Edge Function und RLS).
 
 ### 4.4 Franchise-Modell (FR-MANDANT)
 
+> **Geändert am 05.11.2026:** Jeder Franchisenehmer bekommt eine **eigene Datenbank** (eigenes Supabase- und Neon-Projekt in Frankfurt) statt eines gemeinsamen Projekts mit Mandantentrennung. Einzelheiten und Admin-Einstellungen: `docs/ADMIN-MANDANTEN-KONZEPT.md`.
+
 Rechtlich ist jeder Franchisenehmer ein **eigener Arbeitgeber** und für die Daten seiner Mitarbeiter selbst verantwortlich. Die Plattform trennt deshalb zwei Welten:
 
 ```

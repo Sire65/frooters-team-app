@@ -237,3 +237,27 @@ test("Tauschbörse: Tausch gegen eigene Schicht tauscht beide Personen", () => {
   assert.equal(s.plan[1].personId, pid(s, "Lena"));
   assert.equal(L.tauschPruefen(s, { ...a, teil: { start: 600, ende: 720 } }, a.nehmerId, "s2").moeglich, false, "Teilstunden nicht gegen Schicht");
 });
+
+test("Admin: geheime Schlüssel und Passwörter werden erkannt, öffentliche nicht", () => {
+  const jwt = (role) => "eyJhbGciOiJIUzI1NiJ9." + Buffer.from(JSON.stringify({ role })).toString("base64url") + ".x";
+  assert.ok(L.geheimErkannt("sb_secret_1234567890"));
+  assert.ok(L.geheimErkannt(jwt("service_role")));
+  assert.ok(L.geheimErkannt("postgresql://neondb_owner:abc123@ep-1.eu-central-1.aws.neon.tech/neondb"));
+  assert.ok(L.geheimErkannt("napi_abcdef"));
+  assert.equal(L.geheimErkannt(jwt("anon")), null);
+  assert.equal(L.geheimErkannt("sb_publishable_abcdefghijk"), null);
+});
+
+test("Admin: Verbindungsdaten nur Frankfurt, Freigabe erst nach automatischer Prüfung", () => {
+  const b = { avvDatum: "2026-11-01", schritte: { antrag: true, einrichtung: true }, supabase: { url: "https://abcdefghijklmnopqrst.supabase.co", key: "sb_publishable_abcdefghijk", region: "eu-central-1" }, neon: { projekt: "ruhiger-see-12345678", region: "aws-eu-central-1" }, pruefung: {} };
+  let st = L.betreiberStand(b);
+  assert.equal(st.anzahl, 5);
+  assert.equal(st.freigabeMoeglich, false, "ohne automatische Prüfung keine Freigabe");
+  b.pruefung = { verbindung: "ok", sicherung: "ok" };
+  assert.equal(L.betreiberStand(b).freigabeMoeglich, true);
+  b.supabase.region = "andere";
+  st = L.betreiberStand(b);
+  assert.equal(st.freigabeMoeglich, false);
+  assert.ok(st.verbindung.fehler.some((f) => f.includes("Frankfurt")));
+  assert.ok(L.pruefeVerbindung({ supabase: { url: "https://falsch.example.com" }, neon: {} }).fehler.length);
+});

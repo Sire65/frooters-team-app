@@ -1,5 +1,11 @@
 # Änderungen frooters Team-App
 
+## 0.4.0 (DEV) · 05.11.2026
+- Admin-Einstellungen (Inhaber): Betreiber anlegen (eigene Filialen oder Franchisenehmer), Filialen zuordnen, AV-Vertrag, eigene Datenbank je Betreiber (Supabase-Projekt und Neon-Projekt, beide Frankfurt)
+- Prüfung der Verbindungsdaten: Format, Region Frankfurt; geheime Schlüssel (sb_secret, service_role), Datenbank-Passwörter und Neon-API-Schlüssel werden erkannt und nicht gespeichert
+- 7 Schritte bis zur Freigabe; Verbindung und erste Datensicherung werden nur automatisch geprüft (ab Server-Version), deshalb bleibt die Freigabe bis dahin gesperrt
+- Konzept: `docs/ADMIN-MANDANTEN-KONZEPT.md` (jeder Franchisenehmer mit eigener Datenbank)
+
 ## 0.3.0 (DEV) · 05.11.2026
 - Tauschbörse: Mitarbeiter bieten eine ganze Schicht oder einzelne Stunden (am Anfang oder Ende, mindestens 1 Std.) an. Kollegen übernehmen oder tauschen gegen eine eigene ganze Schicht.
 - Die App prüft vor jedem Tausch: darf in der Filiale arbeiten (Springer-Haken), nicht krank oder im Urlaub, keine Überschneidung; Hinweise bei „kann nicht“ und überschrittenen Wochenstunden
