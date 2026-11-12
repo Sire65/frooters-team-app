@@ -1,5 +1,18 @@
 # Änderungen frooters Team-App
 
+## 0.12.0 (DEV) · 12.11.2026 · Bedienkonzept wie in der Club-App
+- Abgleich mit der Club-App: `docs/ABGLEICH-CLUB-APP.md` (was übernommen wird, was später kommt, was nicht passt)
+- „⚙️ Meine App“: Ansicht Einfach/Erweitert, große Schrift, Hell/Dunkel/wie das Handy, Kachelgröße; gilt nur auf diesem Gerät
+- Kacheln sortieren (↑ ↓) und ausblenden; „Einfach“ zeigt nur das Nötigste, alles andere bleibt über die Suche erreichbar
+- Zurück-Taste des Handys: schließt zuerst das offene Fenster, dann eine Seite zurück (vorher verließ sie die App); Esc schließt Fenster am PC
+- Einweisung: Frootie erklärt jeden Bereich beim ersten Öffnen mit „👍 Verstanden“, danach nur noch über ❓; „Alle Erklärungen wieder zeigen“
+- Vorlesen 🔊 an Frootie-Hinweisen und an der Zubereitung jedes Rezepts
+- „Frag Frootie“ wie „Frag Twinkey“: Frage eintippen, Antworten mit „👉 Zeig es mir“, versteht ähnliche Wörter und Tippfehler, häufige Fragen; ohne KI und ohne Server
+- Suche 🔍 im Kopf über Bereiche, Personen, Rezepte, Zutaten, Artikel, Pinnwand und häufige Fragen; verzeiht Tippfehler; zeigt nur, was die Person öffnen darf
+- „Was ist neu“ nach einem Update in einem Satz mit Sprungknopf; Ruhe-Regel: höchstens ein Info-Fenster pro Öffnen, die Pinnwand geht vor
+- Zähler am App-Symbol (ungelesene Zettel), wo das Handy es kann
+- Rechte je Ansicht an einer Stelle (für Seiten, Suche und „Zeig es mir“)
+
 ## 0.11.0 (DEV) · 05.11.2026 · PC-Version Stufe 4 (Teil ohne Gastronovi)
 - Kassendaten einlesen: CSV aus Gastronovi oder einer anderen Kasse (Datei oder Kopieren/Einfügen); Spalten Datum, Uhrzeit, Umsatz, Anzahl, Artikel werden an der Kopfzeile erkannt oder von Hand zugeordnet; deutsche Zahlen und Datumsangaben; Vorschau je Tag; erneutes Einlesen ersetzt dieselben Tage (nichts doppelt)
 - Umsatz & Personal (Shopleitung): Ø Umsatz je Stunde aus den letzten 4 gleichen Wochentagen neben den Personen laut Plan, Umsatz je Personalstunde; Hinweis rot bei viel Umsatz für wenig Personal, grün bei ruhigen Stunden mit mehr Personal

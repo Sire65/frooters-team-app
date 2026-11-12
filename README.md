@@ -1,8 +1,8 @@
-# frooters Team-App (Testversion 0.11.0, DEV)
+# frooters Team-App (Testversion 0.12.0, DEV)
 
 Handy- und Tablet-App (PWA) für alle frooters-Filialen. Aufbau wie die Köcheclub Club-App: Programm ohne Build-Schritt,
 Kacheln je Rolle, Frootie als Helfer (statt Twinkey), Versionsvertrag mit atomarem Update.
-Konzept: `docs/FROOTERS-APP-KONZEPT.md`, Hygiene: `docs/FROOTERS-HYGIENE-KONZEPT.md`. Regeln für Menschen und Coding-Agents: `AGENTS.md` (KC-Entwicklervertrag). PC-Version (Verwaltung): `docs/PC-VERWALTUNG-KONZEPT.md` mit Ansicht `docs/verwaltung.html`.
+Konzept: `docs/FROOTERS-APP-KONZEPT.md`, Hygiene: `docs/FROOTERS-HYGIENE-KONZEPT.md`. Regeln für Menschen und Coding-Agents: `AGENTS.md` (KC-Entwicklervertrag). Abgleich mit der Club-App: `docs/ABGLEICH-CLUB-APP.md`. PC-Version (Verwaltung): `docs/PC-VERWALTUNG-KONZEPT.md` mit Ansicht `docs/verwaltung.html`.
 
 **Stand 0.1.0:** Die App läuft mit **Beispieldaten im Browser** (Adapter `demo`). Es gibt noch keinen Server, kein Supabase-Projekt
 und keine echte Anmeldung. Oben wählt man eine Person und sieht die App aus ihrer Sicht. Nur Filialen, kein Franchise.
