@@ -1,5 +1,13 @@
 # Änderungen frooters Team-App
 
+## 0.13.0 (DEV) · 12.11.2026 · Nachrichten und Termine (aus dem Abgleich mit der Club-App)
+- 💬 Nachrichten: Chat je Filiale (Team inkl. Springer), Leitungsrunde (Shopleitung, Stellvertretung, Zentrale, Qualität), Direktnachrichten; Hygieneberater ohne Chats
+- Lesebestätigung wie in der Club-App: ✓ gesendet, ✓ 3/6 teilweise, ✓✓ alle gelesen; Tipp auf ✓ zeigt, wer gelesen hat und wer noch nicht; Zähler ungelesen auf der Kachel und am App-Symbol
+- 📅 Termine: Teamsitzung, Schulung, Inventur, Hygiene-Besuch, sonstige; für alle im Team, nur Leitung oder bestimmte Personen; Pflichttermin; Zusage / Vielleicht / Absage; Stand der Antworten mit Namen (offene nur für die Leitung)
+- Leitung legt Termine an, ändert und sagt ab; Ankündigung, Änderung, Absage und Erinnerung an Offene automatisch im passenden Chat
+- In den Handy-Kalender: Termine mit wählbarer Erinnerung (15 Min., 1 Std., Vortag) und die eigenen Dienste der nächsten 4 Wochen als Kalender-Datei (ICS)
+- Startseite „Heute“ zeigt Termine des Tages; Suche findet Termine
+
 ## 0.12.0 (DEV) · 12.11.2026 · Bedienkonzept wie in der Club-App
 - Abgleich mit der Club-App: `docs/ABGLEICH-CLUB-APP.md` (was übernommen wird, was später kommt, was nicht passt)
 - „⚙️ Meine App“: Ansicht Einfach/Erweitert, große Schrift, Hell/Dunkel/wie das Handy, Kachelgröße; gilt nur auf diesem Gerät

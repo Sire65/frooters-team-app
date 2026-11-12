@@ -595,3 +595,58 @@ test("Monatsübersicht: Soll aus Woche × 4,33, gestempelt, Abwesenheitstage je 
   assert.equal(m.sollMin, Math.round(35 * 4.33 * 60));
   assert.ok(m.istMin >= 330); assert.equal(m.abw.krank, 3); assert.equal(m.abw.urlaub, 2); // 29. und 30. Okt (Do, Fr), Samstag zählt nicht
 });
+
+// ---------- 0.13.0: Nachrichten und Termine ----------
+test("Nachrichten: Chats je Filiale und Leitungsrunde, Springer im Chat ihrer Einsatzfiliale, Berater nicht", () => {
+  const s = neu();
+  const id = (v) => s.personen.find((p) => p.vorname === v).id;
+  const och = s.chats.find((c) => c.id === "ch-och");
+  const m = L.chatMitglieder(s, och);
+  assert.ok(m.includes(id("Lena")) && m.includes(id("Inhaber")));
+  assert.ok(m.includes(id("Mia")), "Springerin Mia darf auch in Ochtrup");
+  assert.ok(!m.includes(id("Anna")) && !m.includes(id("Hygieneberater")));
+  assert.deepEqual(L.chatsFuer(s, id("Lena")).map((c) => c.id), ["ch-och"]);
+  assert.ok(L.chatsFuer(s, id("Sandra")).some((c) => c.art === "leitung"));
+});
+
+test("Nachrichten: senden nur als Mitglied, ungelesen, gelesen markieren, ✓✓ erst wenn alle gelesen haben", () => {
+  const s = neu();
+  const id = (v) => s.personen.find((p) => p.vorname === v).id;
+  let n = 0; const nid = () => "n" + n++;
+  assert.equal(L.nachrichtSenden(s, "ch-och", id("Anna"), "Hallo", "2026-11-12T10:00", nid), null);
+  assert.equal(L.nachrichtSenden(s, "ch-och", id("Lena"), "   ", "2026-11-12T10:00", nid), null);
+  const x = L.nachrichtSenden(s, "ch-och", id("Lena"), "Wer hat den Schlüssel?", "2026-11-12T10:00", nid);
+  assert.ok(x);
+  assert.ok(L.chatUngelesen(s, "ch-och", id("Sandra")) >= 1);
+  assert.equal(L.lesestand(s, x).alle, false);
+  for (const pid of L.chatMitglieder(s, s.chats.find((c) => c.id === "ch-och"))) L.chatGelesen(s, "ch-och", pid, "2026-11-12T10:05");
+  assert.equal(L.lesestand(s, x).alle, true);
+  assert.equal(L.chatUngelesen(s, "ch-och", id("Sandra")), 0);
+  const d1 = L.direktChat(s, id("Lena"), id("Tom"), nid), d2 = L.direktChat(s, id("Tom"), id("Lena"), nid);
+  assert.equal(d1, d2);
+  assert.ok(L.chatsFuer(s, id("Tom")).includes(d1) && !L.chatsFuer(s, id("Sandra")).includes(d1));
+});
+
+test("Termine: Eingeladene je Filiale/Leitung, Antworten, Stand, Absage sperrt", () => {
+  const s = neu();
+  const id = (v) => s.personen.find((p) => p.vorname === v).id;
+  const ts = s.termine.find((t) => t.art === "teamsitzung");
+  const ein = L.terminEingeladen(s, ts);
+  assert.ok(ein.includes(id("Lena")) && !ein.includes(id("Anna")) && !ein.includes(id("Hygieneberater")));
+  assert.equal(L.terminAntwort(s, ts.id, id("Anna"), "ja", "x"), false);
+  assert.equal(L.terminAntwort(s, ts.id, id("Lena"), "ja", "x"), true);
+  assert.equal(L.terminAntwort(s, ts.id, id("Lena"), "egal", "x"), false);
+  const st = L.terminStand(s, ts);
+  assert.ok(st.ja.includes(id("Lena")) && st.vielleicht.includes(id("Leonie")) && st.offen.length > 0);
+  const inv = s.termine.find((t) => t.fuer === "leitung");
+  assert.ok(L.terminEingeladen(s, inv).includes(id("Anna")) && !L.terminEingeladen(s, inv).includes(id("Lena")));
+  assert.ok(L.termineFuer(s, id("Lena"), "2000-01-01").some((t) => t.id === ts.id));
+  ts.abgesagt = true; assert.equal(L.terminAntwort(s, ts.id, id("Lena"), "nein", "x"), false);
+});
+
+test("Kalender-Datei (ICS): Zeiten, Sonderzeichen, Erinnerung", () => {
+  const t = L.ics([{ uid: "t1", titel: "Teamsitzung; Ochtrup, Pausenraum", datum: "2026-11-17", von: "18:30", bis: "19:30", ort: "Pausenraum", notiz: "Zeile 1\nZeile 2" }], 60);
+  assert.match(t, /BEGIN:VCALENDAR\r\n/); assert.match(t, /DTSTART:20261117T183000\r\n/); assert.match(t, /DTEND:20261117T193000/);
+  assert.match(t, /SUMMARY:Teamsitzung\\; Ochtrup\\, Pausenraum/); assert.match(t, /DESCRIPTION:Zeile 1\\nZeile 2/);
+  assert.match(t, /TRIGGER:-PT60M/); assert.match(t, /END:VCALENDAR\r\n$/);
+});

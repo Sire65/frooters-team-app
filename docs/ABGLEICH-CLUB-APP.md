@@ -1,6 +1,6 @@
 # Abgleich frooters Team-App ↔ Club-App (Köcheclub)
 
-Stand 12.11.2026 · Club-App 2.937.0 · frooters Team-App 0.11.0 → 0.12.0/0.13.0
+Stand 12.11.2026 · Club-App 2.937.0 · frooters Team-App 0.13.0 (Bedienkonzept in 0.12.0, Nachrichten und Termine in 0.13.0 umgesetzt)
 
 Ziel: Was sich in der Club-App bewährt hat und für ein Team im Shop passt, wird in frooters übernommen. Vereinsthemen (Spiele, Garten, Clubabend, Fotoalbum usw.) werden nicht übernommen.
 
