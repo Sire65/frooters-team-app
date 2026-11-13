@@ -1,5 +1,12 @@
 # Änderungen frooters Team-App
 
+## 0.15.0 (DEV) · 13.11.2026 · Büro einrichten (wie in der Club-App)
+- „✏️ Einrichten“: Die Teile auf dem Schreibtisch wackeln; zwei Teile nacheinander antippen oder ein Teil auf ein anderes ziehen (Finger oder Maus), dann tauschen sie die Plätze; ausgewähltes Teil mit ◀ ▶ verschieben
+- Zusatzkatalog (bis zu 4 Teile, jedes mit Aufgabe): Tischuhr mit echter Uhrzeit (Leitung: wer heute da ist, sonst Stechuhr), Dreh-Adressregister (Adressbuch), Kopierer (Archiv), frooters-Becher (Rezepte), Frootie-Figur (Frag Frootie), Teamfoto (Team), Pflanze (Deko); freie Plätze gestrichelt
+- „↩︎ Rückgängig“ (Stand vor dem Einrichten) und „Grundaufstellung“
+- Die Einrichtung gilt je Person; im Katalog steht nur, was die Person auch öffnen darf
+- Bei weniger Bewegung (Systemeinstellung) wackelt nichts
+
 ## 0.14.0 (DEV) · 13.11.2026 · Büro wie in der Club-App, eigenes Büro je Rolle
 - Büro als Raum wie in der Club-App: Aktenschrank mit Jalousie (Lamellen klappen auf, fahren zur Seite, frooters-Logo auf der geschlossenen Tür), Ordnerrücken im Regal mit Zählern, Schreibtisch mit Pinnwand (Nächster Termin, Eingang), Bildschirm mit Uhr und Namensschild, Kalender, Ablagekorb „Eingang“, Drucker, Telefon, Handy, Tastatur, Füller, Kaffee, Lampe, Rechner
 - Jede Rolle hat ihr eigenes Büro mit eigenem Schreibtisch und eigenen Ordnern, die sich teilweise überschneiden: Inhaber (alle 20 Ordner), Bezirksleitung (11), Hygiene & Qualität (8), Shopleitung (11), Stellvertretung (7), Hygieneberatung (1, nur lesen)

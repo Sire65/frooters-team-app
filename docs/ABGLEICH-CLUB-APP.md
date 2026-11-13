@@ -39,7 +39,7 @@ Ziel: Was sich in der Club-App bewährt hat und für ein Team im Shop passt, wir
 | Pinnwand | ✅ wie Club-App | bleibt |
 | Abstimmungen | – | später (z. B. Sortimentswünsche) |
 | Dienst: Wunsch → Plan → Ist, Stempeln, Tausch | ✅ vorhanden | bleibt |
-| Büro als Raum: Aktenschrank mit Jalousie, Ordner, Schreibtisch mit gezeichneten Teilen, Namensschild | ✅ **übernommen (0.14.0)**, eigenes Büro je Rolle | Einrichten per Ziehen und Zusatzkatalog später |
+| Büro als Raum: Aktenschrank mit Jalousie, Ordner, Schreibtisch mit gezeichneten Teilen, Namensschild | ✅ **übernommen (0.14.0)**, eigenes Büro je Rolle; Einrichten per Antippen/Ziehen und Zusatzkatalog **übernommen (0.15.0)** | – |
 | Briefbogen, Druck im Corporate Design, Schilder, Etiketten | ✅ Druckstudio | Preisetiketten später |
 | Dokumente, Archiv | ✅ Büro-Ordner | bleibt |
 | Rezeptbuch | ✅ Rezepte + Quiz + Allergene | bleibt |

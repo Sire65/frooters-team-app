@@ -82,3 +82,18 @@ test("Bezirksleitung: Leitung in ihren Filialen, keine eigenen Schichten, im Cha
   const inv = s.termine.find((t) => t.fuer === "leitung");
   assert.ok(L.terminEingeladen(s, inv).includes(bz.id));
 });
+
+// ---------- 0.15.0: Büro einrichten ----------
+test("Büro einrichten: Reihenfolge, Tauschen, Schieben, Zusatzteile höchstens 4 und nur erlaubte", () => {
+  const basis = ["lampe", "monitor", "kalender", "korb"];
+  assert.deepEqual(B.einrichtungAnwenden(basis, null), basis);
+  assert.deepEqual(B.einrichtungAnwenden(basis, { folge: ["korb", "unbekannt", "lampe"] }), ["korb", "lampe", "monitor", "kalender"]);
+  const e = B.einrichtungAnwenden(basis, { extra: ["uhr", "uhr", "pflanze", "kopierer", "becher", "figur", "gibtsnicht"] });
+  assert.deepEqual(e.slice(4), ["uhr", "pflanze", "kopierer", "becher"]);
+  assert.deepEqual(B.einrichtungAnwenden(basis, { extra: ["uhr", "rahmen"] }, ["uhr"]).slice(4), ["uhr"]);
+  assert.deepEqual(B.teileTauschen(basis, "lampe", "korb"), ["korb", "monitor", "kalender", "lampe"]);
+  assert.deepEqual(B.teilSchieben(basis, "monitor", -1), ["monitor", "lampe", "kalender", "korb"]);
+  assert.deepEqual(B.teilSchieben(basis, "lampe", -1), basis);
+  for (const k of B.KATALOG) assert.ok(B.BU_SVG[k.id], "Zeichnung für " + k.id);
+  assert.match(B.BU_SVG.uhr(new Date(2026, 10, 13, 3, 0)), /rotate\(90 35 36\)/);
+});
