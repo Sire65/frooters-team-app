@@ -1,5 +1,14 @@
 # Änderungen frooters Team-App
 
+## 0.14.0 (DEV) · 13.11.2026 · Büro wie in der Club-App, eigenes Büro je Rolle
+- Büro als Raum wie in der Club-App: Aktenschrank mit Jalousie (Lamellen klappen auf, fahren zur Seite, frooters-Logo auf der geschlossenen Tür), Ordnerrücken im Regal mit Zählern, Schreibtisch mit Pinnwand (Nächster Termin, Eingang), Bildschirm mit Uhr und Namensschild, Kalender, Ablagekorb „Eingang“, Drucker, Telefon, Handy, Tastatur, Füller, Kaffee, Lampe, Rechner
+- Jede Rolle hat ihr eigenes Büro mit eigenem Schreibtisch und eigenen Ordnern, die sich teilweise überschneiden: Inhaber (alle 20 Ordner), Bezirksleitung (11), Hygiene & Qualität (8), Shopleitung (11), Stellvertretung (7), Hygieneberatung (1, nur lesen)
+- Neue Ordner: Mein Bezirk (Filialen im Vergleich), Schulungen & Belehrungen (was abläuft, Schulungstermine), Mitarbeiter, Urlaub & Einsatz, Bestellung, Hygieneregeln, Rezepte & Allergene, Artikel & Lieferanten, Betreiber & Franchise; Ordner führen direkt in den passenden Bereich
+- Schreibtisch-Teile mit Aufgabe: Eingang sammelt alles, was wartet (Anträge, offene Schichten, Bestellungen, Freigaben, Belehrungen, Termine, Nachrichten); Lampe schaltet hell/dunkel; Kaffee = Pause-Bildschirm mit Frootie; Rechner rechnet mit Punkt vor Strich; Bildschirm schaltet auf die Listenansicht
+- Hygiene-Büro mit Thermometer (Hygiene-Kontrolle), Rezeptbuch (Freigaben) und Klemmbrett (Hygieneregeln); Bezirksbüro mit Landkarte
+- Neue Rolle Bezirksleitung: Leitung in den Filialen ihres Bezirks, keine eigenen Schichten, im Filial-Chat, in der Leitungsrunde und bei Leitungsterminen; Beispiel „Bezirksleitung (Demo)“ mit Ochtrup, Oberhausen, Sinsheim (laut Fragebogen macht das heute der Inhaber)
+- Fehler behoben: Personalakte brach bei Personen ohne Stammfiliale ab
+
 ## 0.13.0 (DEV) · 12.11.2026 · Nachrichten und Termine (aus dem Abgleich mit der Club-App)
 - 💬 Nachrichten: Chat je Filiale (Team inkl. Springer), Leitungsrunde (Shopleitung, Stellvertretung, Zentrale, Qualität), Direktnachrichten; Hygieneberater ohne Chats
 - Lesebestätigung wie in der Club-App: ✓ gesendet, ✓ 3/6 teilweise, ✓✓ alle gelesen; Tipp auf ✓ zeigt, wer gelesen hat und wer noch nicht; Zähler ungelesen auf der Kachel und am App-Symbol

@@ -53,3 +53,32 @@ test("Druckblatt: Logo und Filiale drin, Eingaben werden maskiert", () => {
   const al = B.blattHtml(s, B.neuerDruck(s, "allergene", f), f, { logo: "l", frootie: "f" });
   assert.ok(al.includes("Gluten") && al.includes("Waffel Classic"));
 });
+
+// ---------- 0.14.0: eigene Büros je Rolle, Ordner überschneiden sich, Bezirksleitung ----------
+test("Eigene Büros je Rolle: Ordner überschneiden sich, Inhaber sieht alle, Freigaben bleiben beim Inhaber", () => {
+  const s = D.demoDaten("2026-11-13");
+  const ord = (r) => B.ORDNER.filter((o) => B.darfOrdner(s, r, o.id)).map((o) => o.id);
+  for (const r of ["zentrale", "bezirk", "qualitaet", "shopleitung", "stv", "berater"]) assert.ok(B.BUEROS[r] && B.BUEROS[r].dinge.length >= 8, r);
+  assert.equal(ord("zentrale").length, B.ORDNER.length);
+  assert.ok(ord("bezirk").includes("bezirk") && !ord("shopleitung").includes("bezirk"));
+  assert.ok(ord("qualitaet").includes("regeln") && !ord("shopleitung").includes("regeln"));
+  assert.ok(ord("shopleitung").includes("lohn") && !ord("stv").includes("lohn"));
+  const gemeinsam = ord("qualitaet").filter((x) => ord("shopleitung").includes(x));
+  assert.ok(gemeinsam.includes("hygiene") && gemeinsam.includes("studio"), "Ordner überschneiden sich");
+  assert.deepEqual(ord("berater"), ["hygiene"]);
+  assert.ok(!ord("bezirk").includes("freigaben") && !ord("bezirk").includes("personal"));
+  for (const k of Object.values(B.BUEROS).flatMap((b) => b.dinge)) assert.ok(["monitor", "kalender"].includes(k) || B.BU_SVG[k], "Zeichnung für " + k);
+});
+
+test("Bezirksleitung: Leitung in ihren Filialen, keine eigenen Schichten, im Chat und in Leitungsterminen", () => {
+  const s = D.demoDaten("2026-11-13");
+  const bz = s.personen.find((p) => p.rolle === "bezirk");
+  assert.ok(bz && bz.bezirk.length === 3);
+  assert.equal(L.istLeitung(bz, "och"), true); assert.equal(L.istLeitung(bz, "osn"), false);
+  assert.deepEqual(L.filialenVon(bz), ["och", "obh", "sin"]);
+  assert.equal(L.darfInFiliale(bz, "och"), false);
+  assert.ok(L.chatsFuer(s, bz.id).some((c) => c.id === "ch-och") && !L.chatsFuer(s, bz.id).some((c) => c.id === "ch-osn"));
+  assert.ok(L.chatsFuer(s, bz.id).some((c) => c.art === "leitung"));
+  const inv = s.termine.find((t) => t.fuer === "leitung");
+  assert.ok(L.terminEingeladen(s, inv).includes(bz.id));
+});
