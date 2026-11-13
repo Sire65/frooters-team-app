@@ -97,3 +97,22 @@ test("Büro einrichten: Reihenfolge, Tauschen, Schieben, Zusatzteile höchstens 
   for (const k of B.KATALOG) assert.ok(B.BU_SVG[k.id], "Zeichnung für " + k.id);
   assert.match(B.BU_SVG.uhr(new Date(2026, 10, 13, 3, 0)), /rotate\(90 35 36\)/);
 });
+
+// ---------- 0.17.0: Etiketten mit Barcode ----------
+test("Code 128: Prüfsumme, Zeichensatz B und C, Start/Stopp, ungültige Zeichen", () => {
+  const breiten = (t) => B.code128(t);
+  const a = breiten("A"); // Start B (104), A (33), Prüfsumme (104+33)%103=34, Stopp
+  assert.equal(a.length, 6 * 3 + 7); assert.equal(a.join(""), "211214" + "111323" + "131123" + "2331112");
+  const c = breiten("1234"); // Start C (105), 12, 34, Prüfsumme (105+12+68)%103=82
+  assert.equal(c.slice(0, 6).join(""), "211232");
+  assert.equal(c.reduce((s, x) => s + x, 0), 11 * 4 + 13, "jedes Zeichen 11 Module, Stopp 13");
+  assert.equal(B.code128("Grüße"), null); assert.equal(B.code128(""), null);
+  assert.match(B.code128Svg("FR-ar1", 10), /^<svg class="et-strich"/);
+});
+
+test("Etiketten: Formate passen auf A4, Preise je Größe nie geraten", () => {
+  for (const f of B.ET_FORMATE) { const r = B.etRaster(f); assert.ok(r.sp >= 2 && r.ze >= 3 && r.sp * f.w <= 198 && r.ze * f.h <= 285, f.id); }
+  assert.deepEqual(B.etRaster(B.ET_FORMATE.find((f) => f.id === "60x60")), { sp: 3, ze: 4 });
+  assert.deepEqual(B.etPreise("3,5 / 4,9", ["S", "M", "L"]).map((x) => x.p), ["3,50 €", "4,90 €", "… €"]);
+  assert.deepEqual(B.etPreise("", []).map((x) => x.p), ["… €"]);
+});

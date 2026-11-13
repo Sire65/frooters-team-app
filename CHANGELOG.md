@@ -1,5 +1,13 @@
 # Änderungen frooters Team-App
 
+## 0.17.0 (DEV) · 13.11.2026 · Etiketten mit Barcode (wie in der Club-App)
+- Druckstudio → „🏷️ Etiketten mit Barcode“: Produkte (Preisetikett) oder Lagerware (Regal, Inventur)
+- Maße wie in der Club-App 8×8, 7×7, 6×6, 5×5 cm, dazu Regaletikett 7×4 cm und Lageretikett 5×3 cm; A4-Bogen (Etiketten stoßen aneinander, 6 mm Rand), Anzahl je Artikel, „Probe (1 Etikett)“; Maße im Druck nachgemessen
+- Produkte: Name im Farbband der Warengruppe, Preise je Größe (nur für diesen Druck, leer = „… €“, nie geraten), Allergene und Spuren aus den freigegebenen Zutaten, Code (z. B. PLU aus der Kasse) wird gespeichert; fehlender Code wird rot angezeigt
+- Lagerware: Lagerort-Farbe, Lieferant, Gebinde, Soll und Mindestbestand der Filiale; Code = Bestellnummer des Lieferanten, sonst die interne Nummer der App
+- Code als QR-Code (Baustein aus der Club-App, MIT-Lizenz, lib/qrcode) oder Strichcode Code 128 (eigener Baustein, Zeichensatz B und C); alle Codes in allen Größen aus dem gedruckten PDF mit einem Barcode-Leser geprüft
+- Bausteine einzeln abwählbar: Name, Warengruppe, Preise, Lieferant/Gebinde, Allergene, Code, Nummer, Rahmen
+
 ## 0.16.0 (DEV) · 13.11.2026 · Shop-Tablet (gemeinsame Stechuhr mit PIN)
 - Shop-Tablet: Die Leitung richtet ein Gerät an der Theke unter „Meine App“ als Tablet ihrer Filiale ein; Startbild mit großer Uhr, Knöpfen Kommen·Pause·Gehen, Hygiene, Pinnwand, Mein Dienstplan und „Heute im Dienst“ (wer geplant ist, wer schon da ist)
 - Stempeln am Tablet: Name antippen (Geplante zuerst, nach Beginn), PIN, Kommen/Pause/Gehen; danach Gruß mit Uhrzeit und sofort zurück zum Startbild; Stempel tragen die Quelle „Tablet“
