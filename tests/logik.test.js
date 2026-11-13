@@ -650,3 +650,30 @@ test("Kalender-Datei (ICS): Zeiten, Sonderzeichen, Erinnerung", () => {
   assert.match(t, /SUMMARY:Teamsitzung\\; Ochtrup\\, Pausenraum/); assert.match(t, /DESCRIPTION:Zeile 1\\nZeile 2/);
   assert.match(t, /TRIGGER:-PT60M/); assert.match(t, /END:VCALENDAR\r\n$/);
 });
+
+// ---------- 0.16.0: Shop-Tablet ----------
+test("Shop-Tablet: Geplante zuerst nach Beginn, Springer dabei, Zentrale und Abwesende nicht", () => {
+  const s = neu();
+  const d = "2026-11-04";
+  const l = L.tabletLeute(s, "och", d);
+  const namen = l.map((x) => x.person.vorname);
+  assert.ok(namen.includes("Sandra") && namen.includes("Mia"), "Leitung und Springerin");
+  assert.ok(!namen.includes("Inhaber") && !namen.includes("Anna"));
+  const geplant = l.filter((x) => x.geplant);
+  assert.ok(geplant.length > 0 && l.indexOf(geplant[geplant.length - 1]) === geplant.length - 1, "Geplante stehen vorne");
+  for (let i = 1; i < geplant.length; i++) assert.ok(geplant[i - 1].beginn <= geplant[i].beginn);
+  const lukasIn = L.tabletLeute(s, "obh", s.abwesenheiten.find((a) => a.art === "krank").von).some((x) => x.person.vorname === "Lukas");
+  assert.equal(lukasIn, false, "Krank gemeldete Person steht nicht auf dem Tablet");
+});
+
+test("PIN: richtig, falsch mit Restversuchen, Sperre nach 5 Fehlern, nach Ablauf wieder möglich", () => {
+  const s = neu(); const id = s.personen.find((p) => p.vorname === "Lena").id; const sp = {};
+  assert.equal(L.pinPruefen(s, id, "1234", 0, sp).ok, true);
+  assert.equal(L.pinPruefen(s, id, "0000", 0, sp).rest, 4);
+  for (let i = 0; i < 3; i++) L.pinPruefen(s, id, "0000", 0, sp);
+  const r = L.pinPruefen(s, id, "0000", 1000, sp);
+  assert.equal(r.grund, "gesperrt");
+  assert.equal(L.pinPruefen(s, id, "1234", 2000, sp).grund, "gesperrt", "auch die richtige PIN wartet");
+  assert.equal(L.pinPruefen(s, id, "1234", 1000 + L.PIN_SPERRE_MS + 1, sp).ok, true);
+  assert.equal(L.pinGueltig("12"), "Bitte 4 bis 6 Ziffern."); assert.ok(L.pinGueltig("1111")); assert.ok(L.pinGueltig("4321")); assert.equal(L.pinGueltig("7351"), "");
+});

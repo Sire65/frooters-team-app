@@ -1,5 +1,13 @@
 # Änderungen frooters Team-App
 
+## 0.16.0 (DEV) · 13.11.2026 · Shop-Tablet (gemeinsame Stechuhr mit PIN)
+- Shop-Tablet: Die Leitung richtet ein Gerät an der Theke unter „Meine App“ als Tablet ihrer Filiale ein; Startbild mit großer Uhr, Knöpfen Kommen·Pause·Gehen, Hygiene, Pinnwand, Mein Dienstplan und „Heute im Dienst“ (wer geplant ist, wer schon da ist)
+- Stempeln am Tablet: Name antippen (Geplante zuerst, nach Beginn), PIN, Kommen/Pause/Gehen; danach Gruß mit Uhrzeit und sofort zurück zum Startbild; Stempel tragen die Quelle „Tablet“
+- Hygiene, Pinnwand und Dienstplan am Tablet mit PIN: kurze Anmeldung als diese Person, rotes Band „angemeldet“ mit Abmelden; nach 90 Sekunden ohne Berührung automatisch abgemeldet (Warnung nach 70 Sekunden); nach Neuladen immer abgemeldet
+- PIN-Schutz wie in der Club-App: 5 falsche Versuche, dann 5 Minuten Pause für diese Person; eigene PIN in „Meine App“ ändern (4–6 Ziffern, keine einfache Folge)
+- Tablet-Modus beenden nur mit der PIN einer Leitung der Filiale
+- Krank gemeldete Personen stehen nicht auf dem Tablet; die Bezirksleitung erscheint nicht beim Stempeln
+
 ## 0.15.0 (DEV) · 13.11.2026 · Büro einrichten (wie in der Club-App)
 - „✏️ Einrichten“: Die Teile auf dem Schreibtisch wackeln; zwei Teile nacheinander antippen oder ein Teil auf ein anderes ziehen (Finger oder Maus), dann tauschen sie die Plätze; ausgewähltes Teil mit ◀ ▶ verschieben
 - Zusatzkatalog (bis zu 4 Teile, jedes mit Aufgabe): Tischuhr mit echter Uhrzeit (Leitung: wer heute da ist, sonst Stechuhr), Dreh-Adressregister (Adressbuch), Kopierer (Archiv), frooters-Becher (Rezepte), Frootie-Figur (Frag Frootie), Teamfoto (Team), Pflanze (Deko); freie Plätze gestrichelt

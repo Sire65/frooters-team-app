@@ -22,7 +22,7 @@ Ziel: Was sich in der Club-App bewährt hat und für ein Team im Shop passt, wir
 | Zähler am App-Symbol (Badge) | – | **übernommen (0.12.0)**, wo das Handy es kann |
 | Erinnerung als Kalender-Datei (ICS) | – | **übernommen (0.13.0)**: Dienste und Termine in den Handy-Kalender |
 | Schritt-Hilfe, „Klick zeigen“, Rundgang mit Ton, Erklär-Videos | „Video folgt“ | später (nach dem Pilot, wenn die Abläufe feststehen) |
-| PIN und Sichtschutz nach Inaktivität | – | später, wichtig für das Shop-Tablet (Stechuhr) |
+| PIN und Sichtschutz nach Inaktivität | – | **übernommen (0.16.0)** als Shop-Tablet mit PIN und automatischem Abmelden |
 | Update-Hinweis, Versionsvertrag, kein Mischstand | ✅ vorhanden | bleibt |
 | Offline-Stand, Notbetrieb, Lade-Leiste, Schnecke | – | erst mit Server (Supabase) sinnvoll |
 | Login per persönlichem Link oder Kurzcode | Personenwahl (Testversion) | mit Server |
