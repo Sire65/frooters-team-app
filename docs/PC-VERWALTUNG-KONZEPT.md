@@ -18,7 +18,7 @@ Am PC wird **alles eingestellt**, was die App im Shop braucht: Filialen, Mitarbe
 
 ## 2. Aufbau am PC
 
-Links die Seitenleiste, oben Filialwahl und Suche, in der Mitte Tabellen mit Filter und Sortierung. Ein Klick auf eine Zeile öffnet rechts die Details zum Bearbeiten.
+Links die Seitenleiste (seit 0.19.0 in Gruppen zum Aufklappen: Mein Bereich, Infos & Termine, Planung, Personal, Hygiene, Rezepte, Ware & Umsatz, Büro, Zentrale; mit « ganz einklappbar zur Symbolleiste), oben Filialwahl und Suche, in der Mitte Tabellen mit Filter und Sortierung. Ein Klick auf eine Zeile öffnet rechts die Details zum Bearbeiten.
 
 1. **Übersicht:** Was ist offen (unbesetzte Schichten, Anträge, Hygiene-Auffälligkeiten, Bestellungen, ablaufende Belehrungen)
 2. **Filialen**
