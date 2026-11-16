@@ -1,6 +1,6 @@
 # frooters Team-App – Modulauswahl für den CEO
 
-Stand 13.11.2026 · Grundlage: Club-App (Köcheclub) und frooters Team-App 0.17.0
+Stand 16.11.2026 · Grundlage: Club-App (Köcheclub) 2.960 und frooters Team-App 0.18.0
 
 Zum Ankreuzen online: https://sire65.github.io/frooters-testversion/auswahl.html (Ja / Nein / Vielleicht, Notiz, Auswertung als Datei)
 
@@ -38,6 +38,7 @@ Zum Ankreuzen online: https://sire65.github.io/frooters-testversion/auswahl.html
 | B07 | **Ideen-Box** | Verbesserungsvorschläge der Mitarbeiter sammeln, Status: geprüft, umgesetzt. | 🆕 neu | klein | – | ✓ | ☐ | ☐ | ☐ |
 | B08 | **Internes Magazin** | Neuigkeiten der Zentrale zum Blättern (neue Produkte, Aktionen, Team). | 🆕 neu | mittel | – | ✓ | ☐ | ☐ | ☐ |
 | B09 | **Anrufe & Video** | Telefonieren und Videokonferenz in der App. | 🆕 neu | groß | ja | ✓ | ☐ | ☐ | ☐ |
+| B10 | **Besprechungen: Tagesordnung & Protokoll** | Tagesordnung am Termin, Besprechungsvorlage drucken, Protokoll mit Wer/Bis wann schreiben und an alle senden (wie in der Club-App). | ✅ in der Testversion | klein | – | ✓ | ☐ | ☐ | ☐ |
 
 ## C · Personal & Einsatzplanung
 
@@ -59,6 +60,10 @@ Zum Ankreuzen online: https://sire65.github.io/frooters-testversion/auswahl.html
 | C14 | **Bewerbungen** | Bewerbungen sammeln, Gespräch planen, Probearbeit, Zu-/Absage. | 🆕 neu | mittel | – | – | ☐ | ☐ | ☐ |
 | C15 | **Mitarbeitergespräche** | Gespräche planen und kurz festhalten (Ziele, Wünsche). | 🆕 neu | klein | – | – | ☐ | ☐ | ☐ |
 | C16 | **Geburtstage & Jubiläen** | Erinnerung an Geburtstage und Firmenjubiläen für die Leitung. | 🆕 neu | klein | – | ✓ | ☐ | ☐ | ☐ |
+| C17 | **Tagesplan zum Aushängen** | Je Tag ein A4-Blatt: alle Personen mit Wunsch, Dienst als Balken und besetzt/nötig je halbe Stunde. | ✅ in der Testversion | klein | – | ✓ | ☐ | ☐ | ☐ |
+| C18 | **Bereitschaft selbst eintragen** | Mitarbeiter tragen im Dienstwunsch ein, wann sie kurzfristig einspringen können; die Planung fragt sie zuerst. | ✅ in der Testversion | klein | – | ✓ | ☐ | ☐ | ☐ |
+| C19 | **Erstattung von Auslagen** | Fahrtkosten (z. B. Springer) und Einkäufe mit Beleg-Foto einreichen; Leitung prüft, Liste für die Buchhaltung. | 🆕 neu | mittel | ja | ✓ | ☐ | ☐ | ☐ |
+| C20 | **Daten aktualisieren lassen** | Leitung bittet um neue Handynummer, Adresse oder einen Nachweis (z. B. Belehrung); die Person bekommt beim Öffnen einen Hinweis mit „Sofort erledigen“. | 🆕 neu | klein | – | ✓ | ☐ | ☐ | ☐ |
 
 ## D · Hygiene & Qualität
 
@@ -148,7 +153,7 @@ Zum Ankreuzen online: https://sire65.github.io/frooters-testversion/auswahl.html
 | K01 | **Kunden-App / Bonusprogramm** | Stempelkarte, Aktionen, Allergene für Kunden. | 🆕 neu | groß | ja | – | ☐ | ☐ | ☐ |
 | K02 | **Vorbestellung** | Kunden bestellen vorab und holen ab. | 🆕 neu | groß | ja | – | ☐ | ☐ | ☐ |
 
-**Zusammen 87 Module:** 36 in der Testversion, 8 teilweise, 43 neu.
+**Zusammen 92 Module:** 39 in der Testversion, 8 teilweise, 45 neu.
 
 ## Auswertung
 

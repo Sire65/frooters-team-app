@@ -677,3 +677,37 @@ test("PIN: richtig, falsch mit Restversuchen, Sperre nach 5 Fehlern, nach Ablauf
   assert.equal(L.pinPruefen(s, id, "1234", 1000 + L.PIN_SPERRE_MS + 1, sp).ok, true);
   assert.equal(L.pinGueltig("12"), "Bitte 4 bis 6 Ziffern."); assert.ok(L.pinGueltig("1111")); assert.ok(L.pinGueltig("4321")); assert.equal(L.pinGueltig("7351"), "");
 });
+
+// ---------- 0.18.0: aus der Club-App übernommen ----------
+test("Planung gerecht: bei gleichen Punkten zuerst, wer im Verhältnis zum Umfang am wenigsten hat", () => {
+  const s = neu(); s.plan = []; s.wuensche = [];
+  const och = s.personen.filter((p) => p.stammfiliale === "och" && p.rolle !== "aushilfe");
+  for (const p of och) { p.profil = { zeit: "flexibel" }; p.unter18 = false; p.beschaeftigung = "teilzeit"; p.stundenEinheit = "woche"; }
+  const [a, b] = och;
+  a.wochenstunden = 40; b.wochenstunden = 10;
+  // a hat schon 10 Std. (25 %), b 5 Std. (50 %): a soll zuerst kommen, obwohl er absolut mehr hat
+  s.plan.push({ id: "x1", filiale: "och", datum: "2026-11-02", schicht: "frueh", personId: a.id, zeit: { start: 540, ende: 1140 } }, { id: "x2", filiale: "och", datum: "2026-11-02", schicht: "spaet", personId: b.id, zeit: { start: 840, ende: 1140 } });
+  const k = L.kandidaten(s, "och", "2026-11-05", "frueh").filter((x) => x.person.id === a.id || x.person.id === b.id);
+  assert.equal(k[0].person.id, a.id);
+  assert.ok(k[0].auslastung < k[1].auslastung);
+});
+
+test("Bereitschaft selbst im Dienstwunsch eintragen: gilt nur in der Zeit", () => {
+  const s = neu(); s.wuensche = [];
+  const p = s.personen.find((x) => x.vorname === "Tom"); p.profil = { zeit: "flexibel" };
+  s.wuensche.push({ id: "w1", personId: p.id, datum: "2026-11-05", art: "kann", schicht: "egal", bereit: { von: "08:00", bis: "13:00" } });
+  assert.equal(L.bereitschaftAm(s, p, "2026-11-05", { start: 570, ende: 870 }), true);
+  assert.equal(L.bereitschaftAm(s, p, "2026-11-05", { start: 900, ende: 1230 }), false);
+  assert.equal(L.bereitschaftAm(s, p, "2026-11-06", null), false);
+  const k = L.kandidaten(s, "och", "2026-11-05", "frueh").find((x) => x.person.id === p.id);
+  assert.ok(k.gruende.includes("in Bereitschaft"));
+});
+
+test("Tagesordnung: Punkte aus Text, Aufzählungen weg, nur neue Punkte, Protokoll-Entwurf mit Zusagen", () => {
+  assert.deepEqual(L.tagesordnungAus("1. Wintersortiment\n- Hygiene-Liste; • Dienstwünsche Dezember\nTOP 4: Sommerfest\n\nx"), ["Wintersortiment", "Hygiene-Liste", "Dienstwünsche Dezember", "Sommerfest"]);
+  assert.deepEqual(L.neuePunkte(["A", "B"], ["a", "B", "C"]), ["C"]);
+  const s = neu(); const t = s.termine.find((x) => x.art === "teamsitzung"); t.tagesordnung = ["Wintersortiment", "Hygiene"];
+  const e = L.protokollEntwurf(s, t);
+  assert.equal(e.tops.length, 2); assert.ok(e.anwesend.length >= 1); assert.equal(e.gesendet, null);
+  t.protokoll = { ...e, sonstiges: "x" }; assert.equal(L.protokollEntwurf(s, t).sonstiges, "x");
+});

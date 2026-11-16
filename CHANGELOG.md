@@ -1,5 +1,16 @@
 # Änderungen frooters Team-App
 
+## 0.18.0 (DEV) · 16.11.2026 · Neues aus der Club-App (2.938–2.960)
+- 📋 Tagesordnung am Termin (ein Punkt je Zeile, Aufzählungen werden erkannt), 🗂️ Besprechungsvorlage zum Drucken auf frooters-Briefkopf (Teilnehmer zum Abhaken mit Rückmeldung, TOPs mit Schreiblinien, Wer?, Bis wann?), 📝 Protokoll schreiben (Anwesende vorbelegt mit den Zusagen, je Punkt Ergebnis, Wer, Bis wann; Verschiedenes, nächster Termin) und senden: steht danach beim Termin, im Chat kommt ein Hinweis mit den Aufgaben, Druck/PDF auf Briefkopf (Club 2.932, 2.943, 2.946)
+- ✏️ Termin ergänzen und Bescheid geben: im Chat stehen nur die neu dazugekommenen Punkte (Club 2.934)
+- 📋 Einsatzplan je Tag zum Aushängen (A4 quer): alle Personen mit Wunsch und Bereitschaft, Dienst als Balken in der Rollenfarbe (Aushilfen gestreift, ☕ ab 6 Std.), besetzt/nötig je halbe Stunde, Personalstunden laut Vorgabe und eingeteilt (Club 2.944)
+- 🗓️ Gerechtere Planung: bei gleicher Eignung kommt zuerst, wer im Verhältnis zu seinem Stundenumfang am wenigsten hat (Club 2.936)
+- 🛎 Bereitschaft selbst eintragen: in den Dienstwünschen je Tag mit Uhrzeit; der Planvorschlag bevorzugt diese Personen (Club 2.938)
+- 👀 Ausgeblendete Kacheln mit einem Knopf zeigen und mit einem Tipp wieder einblenden, 🙈 zurück (Club 2.953)
+- Frag Frootie kennt die neuen Bereiche (Shop-Tablet, PIN, Bereitschaft, Tagesplan, Tagesordnung und Protokoll, Etiketten, Büro einrichten, ausgeblendete Kacheln) (Club 2.960)
+- Modulauswahl für den CEO um 5 Module ergänzt (jetzt 92)
+- Beispieldaten: auch die Vorwoche ist geplant, damit es an jedem Wochentag vergangene Stempelzeiten gibt
+
 ## 0.17.0 (DEV) · 13.11.2026 · Etiketten mit Barcode (wie in der Club-App)
 - Druckstudio → „🏷️ Etiketten mit Barcode“: Produkte (Preisetikett) oder Lagerware (Regal, Inventur)
 - Maße wie in der Club-App 8×8, 7×7, 6×6, 5×5 cm, dazu Regaletikett 7×4 cm und Lageretikett 5×3 cm; A4-Bogen (Etiketten stoßen aneinander, 6 mm Rand), Anzahl je Artikel, „Probe (1 Etikett)“; Maße im Druck nachgemessen

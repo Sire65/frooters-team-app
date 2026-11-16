@@ -52,3 +52,18 @@ Ziel: Was sich in der Club-App bewährt hat und für ein Team im Shop passt, wir
 - Versionsvertrag: eine Versionsnummer in app.js, sw.js, version.json und index.html.
 - Höchstens ein Info-Fenster pro Öffnen (Ruhe-Regel).
 - Einstellungen, die nur das Gerät betreffen (Schrift, Ansicht, Kacheln), bleiben auf dem Gerät.
+
+
+## Nachtrag 16.11.2026: Club-App 2.938–2.960
+| Club-App | frooters | Entscheidung |
+|---|---|---|
+| Terminanfrage: Tagesordnung, Besprechungsvorlage, Protokoll als PDF, ändern und Bescheid geben (2.932–2.946) | Termine | **übernommen (0.18.0)** für Teamsitzungen |
+| Einsatzplan je Tag auf A4 (2.944) | Besetzung | **übernommen (0.18.0)** als Tagesplan zum Aushängen |
+| Wunschzeiten zuerst, gerecht gekürzt (2.936) | Planvorschlag | **übernommen (0.18.0)**: Reihenfolge nach Auslastung |
+| Nur selbst eingetragene Bereitschaft (2.938) | Dienstwünsche | **übernommen (0.18.0)**, zusätzlich zur Bereitschaft im Profil |
+| Ausgeblendete Kacheln mit einem Knopf (2.953) | Startseite | **übernommen (0.18.0)** |
+| Hilfe, Lupe, Twinkey auf neuestem Stand (2.960) | Frag Frootie | **übernommen (0.18.0)** |
+| Änderung erbitten (2.957) | – | als Modul in die Auswahl aufgenommen („Daten aktualisieren lassen“) |
+| Erstattung, Buchungsliste (2.912, 2.951) | – | als Modul in die Auswahl aufgenommen („Erstattung von Auslagen“) |
+| Gegenvorschlag bei Themen (2.956), Online-Meldungen (2.956/2.957), Verbindungs-Balken (2.903) | – | später, brauchen Server bzw. Vorschlagswesen |
+| Adventskalender, Roman, Garten, Gemeinschaftsgericht, Magazin-Hefte | – | nicht übernommen (Vereinsthemen) |
